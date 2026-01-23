@@ -1,0 +1,186 @@
+================================================================================
+REPLICATION GUIDE (BRIDGES): "Weight-sparse transformers have interpretable circuits"
+Gao et al. (2025) - OpenAI
+================================================================================
+
+This document summarizes the paper’s “bridges” methodology: training a weight-sparse
+model to be coupled to an already-trained dense model via per-sublayer linear maps,
+plus the appendix details (Appendix A.3–A.4) needed to reproduce the bridge losses
+and bridge-based interventions.
+
+Paper source in this workspace: for_claude/gao.pdf
+
+================================================================================
+SECTION 0: GOAL + HIGH-LEVEL SETUP
+================================================================================
+
+Goal: Given an existing dense transformer M^d, train a weight-sparse transformer
+M^s plus a set of “bridges” so that:
+- Sparse and dense residual streams can be translated between each other at many
+  internal locations (“once per sublayer”, i.e. before each attention block and
+  before each MLP block).
+- Hybrid forward passes that splice dense activations into the sparse model (and
+  vice versa) still yield outputs close to the original dense model.
+
+Key idea (paper framing):
+- Each bridge is an encoder+decoder pair between the dense and sparse residual
+  activations at a given location.
+- Encoders are linear + AbsTopK; decoders are linear.
+- This is equivalent to a sparse autoencoder whose latent space is the sparse
+  model’s residual activations (paper footnote).
+
+================================================================================
+SECTION 1: BRIDGE PLACEMENT + PARAMETERIZATION
+================================================================================
+
+1.1 WHERE BRIDGES LIVE
+----------------------
+Bridges are inserted “once per sublayer, i.e. before each attention and each MLP”.
+
+In the appendix notation:
+- i indexes sublayers (each i is either an attention block or an MLP block).
+- h^d_i, h^s_i are the dense/sparse residual activations at location i.
+- M^d_i and M^s_i are the corresponding sublayers.
+
+Concretely, for a standard transformer layer with attention then MLP, you will have
+two bridge sites per layer (pre-attn and pre-MLP), plus the initial embedding site
+(i = 0 in the appendix notation).
+
+1.2 WHAT A BRIDGE IS
+---------------------
+For each bridge site i:
+- Encoder f_i: maps dense → sparse activations
+  - Structure: linear map + AbsTopK (as stated in the paper)
+- Decoder g_i: maps sparse → dense activations
+  - Structure: linear map (as stated in the paper)
+
+Note: The paper text does not specify shapes explicitly, but the intent is that
+f_i consumes dense residual vectors and produces sparse residual vectors, and g_i
+does the reverse.
+
+================================================================================
+SECTION 2: TRAINING OBJECTIVE (MAIN TEXT + APPENDIX A.3)
+================================================================================
+
+2.1 BASE MODELS AND NOTATION (APPENDIX A.3)
+------------------------------------------
+- Dense model: M^d (already-trained dense model you want to “explain”)
+- Sparse model: M^s (trained with the weight-sparsity method from the paper)
+- Residual activations:
+  - h^d_i: residual stream at bridge site i in dense model
+  - h^s_i: residual stream at bridge site i in sparse model
+- Sublayers:
+  - M^d_i(h^d_i) = h^d_{i+1}
+  - M^s_i(h^s_i) = h^s_{i+1}
+- Dense logits target:
+  - y^d = M^d_unemb(h^d_L)
+
+2.2 TOTAL LOSS = (NORMAL PRETRAINING LOSS) + (BRIDGE LOSSES)
+------------------------------------------------------------
+Main text states: “we use multiple bridge loss terms in addition to normal
+pretraining loss”.
+
+Appendix A.3 defines 3 bridge loss terms:
+
+1) Normalized MSE reconstruction loss
+   L_NMSE = sum_i [ NMSE(f_i(h^d_i), h^s_i) + NMSE(g_i(h^s_i), h^d_i) ]
+
+   Notes:
+   - This trains f_i to predict sparse activations from dense ones and g_i to
+     predict dense activations from sparse ones.
+   - The paper does NOT define the exact normalization used by NMSE in the text
+     (i.e., what quantity the MSE is normalized by). You will need to choose a
+     normalization consistent with “normalized MSE” (e.g., scale-invariant MSE).
+
+2) Hybrid-pass KL (dense → sparse splice)
+   L_KL, d→s = sum_i KL( y^d,  y^(d→s)_i )
+
+   where the hybrid logits are:
+   y^(d→s)_i = ( M^s_unemb ◦ M^s_L ◦ ... ◦ M^s_i ◦ f_i )( h^d_i )
+
+   Interpretation:
+   - Run dense forward to compute h^d_i and y^d.
+   - At site i, encode the dense residual h^d_i into sparse space via f_i.
+   - Run the remainder of the sparse model from i onward, then sparse unembedding.
+   - Match the hybrid output distribution to the dense model’s output via KL.
+
+3) Hybrid-pass KL (sparse → dense splice)
+   L_KL, s→d = sum_i KL( y^d,  y^(s→d)_i )
+
+   where the hybrid logits are:
+   y^(s→d)_i = ( M^d_unemb ◦ M^d_L ◦ ... ◦ M^d_i ◦ g_i )( h^s_i )
+
+   Interpretation:
+   - Run sparse forward to compute h^s_i (and/or obtain h^s_i during training).
+   - At site i, decode the sparse residual h^s_i into dense space via g_i.
+   - Run the remainder of the dense model from i onward, then dense unembedding.
+   - Match the hybrid output distribution to the dense model’s output via KL.
+
+2.3 WHY THESE KL TERMS (APPENDIX A.3)
+-------------------------------------
+The appendix notes:
+- Ideally, you’d train over all 2^L combinations of picking dense vs sparse for
+  each sublayer.
+- The two KL objectives above are a “first order approximation” that considers
+  only combinations with exactly one transition between sparse and dense.
+
+================================================================================
+SECTION 3: PRACTICAL TRAINING PROCEDURE (WHAT YOU NEED TO IMPLEMENT)
+================================================================================
+
+3.1 WHAT NEEDS TO HAPPEN EACH TRAINING STEP
+------------------------------------------
+To compute the bridge losses as written, you need (at least) the following:
+
+- Dense forward pass to get:
+  - all intermediate activations h^d_i at each bridge site i
+  - dense logits y^d (the KL target)
+
+- Sparse forward pass to get:
+  - all intermediate activations h^s_i at each bridge site i
+  - (optionally) sparse logits (for “normal pretraining loss” if implemented as
+    standard cross-entropy to tokens)
+
+- Bridge NMSE terms at each site i:
+  - NMSE(f_i(h^d_i), h^s_i)
+  - NMSE(g_i(h^s_i), h^d_i)
+
+- Hybrid KL terms:
+  - For each i, one “splice” forward through the remainder of the sparse model:
+    y^(d→s)_i from f_i(h^d_i)
+  - For each i, one “splice” forward through the remainder of the dense model:
+    y^(s→d)_i from g_i(h^s_i)
+
+Compute note:
+- Naively, summing over i implies O(L) additional partial forward passes for each
+  direction. The paper does not describe the compute optimization strategy; for a
+  literal replication of the written objective, you must implement these hybrid
+  remainder passes or an equivalent efficient computation.
+
+3.2 WHAT IS (AND ISN’T) SPECIFIED BY THE PAPER TEXT
+---------------------------------------------------
+The bridge sections specify:
+- Bridge placement frequency (“before each attention and each MLP”)
+- Bridge module types (encoder: linear + AbsTopK; decoder: linear)
+- The bridge losses and hybrid-pass definitions (Appendix A.3)
+- How they reuse bridges for interventions (Appendix A.4; see Section 4 below)
+
+The bridge sections do NOT specify (in the extracted paper text):
+- The exact NMSE normalization formula
+- The relative weighting coefficients among:
+  - normal pretraining loss
+  - L_NMSE
+  - L_KL,d→s
+  - L_KL,s→d
+- Whether the dense model is frozen vs jointly updated (the framing “starting with
+  an existing dense model” strongly suggests dense is fixed, and y^d is treated as
+  a target distribution; but the paper does not explicitly state “freeze M^d”.)
+- Exact architecture matching requirements between M^d and M^s (the experiments
+  described use same-depth models, e.g. “4-layer dense model and bridged 4-layer
+  sparse model” in Section 3.3).
+
+================================================================================
+END OF BRIDGES REPLICATION GUIDE
+================================================================================
+
+

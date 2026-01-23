@@ -1,0 +1,25 @@
+*.pt
+*.safetensors
+
+checkpoints/
+checkpoints_bridges/
+wandb/
+nohup.out
+*.log
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+
+# Environment
+.env
+.env.*
+
+# Outputs (model checkpoints, results)
+outputs/
+
+# IDE
+.vscode/
+.idea/

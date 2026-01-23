@@ -1,0 +1,150 @@
+# Example configuration for bridges training
+# Based on Gao et al. (2025) "Weight-sparse transformers have interpretable circuits"
+#
+# This trains a weight-sparse model coupled to a frozen dense model via bridges.
+# The sparse model is trained from scratch while learning to maintain alignment
+# with the dense model through encoder/decoder pairs at each sublayer.
+
+# =============================================================================
+# Dense Model Configuration
+# =============================================================================
+# The dense model is frozen during training and serves as the reference.
+# It must have no weight or activation sparsity enabled.
+dense_model:
+  # HuggingFace repo ID to load from (e.g., "username/my-dense-model")
+  repo_id: "jacobcd52/ss_d128_f1"
+  
+  # Or load from a local checkpoint directory instead
+  # local_path: "/path/to/checkpoint"
+
+# =============================================================================
+# Sparse Model Configuration  
+# =============================================================================
+# The sparse model is randomly initialized and trained from scratch.
+# It will have weight and activation sparsity applied during training.
+sparse_model:
+  n_layer: 2              # Must match dense model
+  d_model: 256           # Can be larger than dense model
+  n_ctx: 512              # Context length
+  d_head: 16              # Should typically match dense model
+  d_mlp: null             # Defaults to 4 * d_model
+  
+  use_rms_norm: true
+  tie_embeddings: false
+  use_positional_embeddings: false
+  use_bigram_table: false
+  use_attention_sinks: true
+  
+  activation: gelu
+  dropout: 0.0
+  use_bias: true
+  use_flash_attention: true
+
+# =============================================================================
+# Bridges Configuration
+# =============================================================================
+# Bridges are encoder/decoder pairs that translate between dense and sparse
+# residual stream activations at each sublayer location.
+bridges:
+  # AbsTopK fraction for encoder (matches sparse model's activation sparsity)
+  encoder_afrac: 0.25
+  
+  # Loss coefficients (all configurable, sum to total loss)
+  coef_nmse: 1.0        # Normalized MSE reconstruction loss
+  coef_kl_d2s: 1.0      # KL for dense→sparse hybrid passes
+  coef_kl_s2d: 1.0      # KL for sparse→dense hybrid passes
+  coef_ce_sparse: 1.0   # Cross-entropy on sparse model (standard LM loss)
+  coef_kl_sparse: 1.0   # KL(dense, sparse) distillation loss
+
+# =============================================================================
+# Sparsity Configuration (for sparse model)
+# =============================================================================
+# These settings apply to the sparse model only. Bridges are always dense.
+sparsity:
+  enable_weight_sparsity: true
+  target_l0_fraction: 0.015625 # 1/64
+  
+  # Sparsity annealing schedule
+  sparsity_anneal_start_fraction: 0.01
+  sparsity_anneal_end_fraction: 0.5
+  anneal_type: exponential
+  
+  # Minimum nonzero weights per neuron
+  min_weights_per_neuron: 4
+  
+  # Activation sparsity
+  enable_activation_sparsity: true
+  activation_topk_fraction: 0.25
+  activation_sparsity_locations: "attn_in,attn_out,mlp_in,mlp_out,mlp_neuron,attn_v,attn_k,attn_q"
+
+# =============================================================================
+# Optimizer Configuration
+# =============================================================================
+optimizer:
+  optimizer_type: adamw
+  learning_rate: 0.003 #change
+  beta1: 0.9
+  beta2: 0.95
+  weight_decay: 0.001 #change
+  eps: 0.1              # Unusually large epsilon (paper Section 4.1)
+  
+  enable_grad_clip: true
+  grad_clip_rms: 1.0
+  
+  warmup_fraction: 0.01
+  enable_lr_decay: true
+  use_sharkfin_schedule: false
+
+# =============================================================================
+# Training Configuration
+# =============================================================================
+training:
+  # Dataset - use pre-tokenized version for faster multi-GPU training
+  # Options:
+  #   - "data/simplestories-tokenized" (local, fastest - run setup.sh first)
+  #   - "jacobcd52/simplestories-tokenized" (HuggingFace, fast)
+  #   - "SimpleStories/SimpleStories" (raw text, slower but flexible)
+  dataset_name: "data/simplestories-tokenized"
+  dataset_split: train
+  text_column: story  # Only used for raw text datasets
+  
+  # Tokenizer
+  tokenizer_name: "SimpleStories/SimpleStories-1.25M"
+  
+  # Training
+  total_tokens: 100000000   # 10M tokens
+  batch_size: 128
+  gradient_accumulation_steps: 1
+  num_workers: 8             # Dataloader workers (increase for multi-GPU)
+  
+  # Mixed precision
+  mixed_precision: bf16
+  
+  # Checkpointing
+  checkpoint_dir: checkpoints_bridges
+  checkpoint_every_n_steps: 5000
+  keep_n_checkpoints: 3
+  
+  # Logging
+  log_every_n_steps: 10
+  log_gradients_every_n_steps: 100
+  log_weights_every_n_steps: 100
+  log_sparsity_every_n_steps: 100
+  eval_every_n_steps: 100
+  
+  # Validation
+  val_split: test
+  val_holdout_fraction: 0.01
+  val_max_batches: 20
+  
+  # W&B
+  wandb_project: multi_test
+  wandb_run_name: multi_test
+  wandb_entity: null
+  use_wandb: true
+  
+  # Reproducibility
+  seed: 0
+  
+  # HuggingFace Hub (optional)
+

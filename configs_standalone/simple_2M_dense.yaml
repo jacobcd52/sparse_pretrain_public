@@ -1,0 +1,117 @@
+# Default configuration for weight-sparse transformer training
+# Based on Gao et al. (2025) "Weight-sparse transformers have interpretable circuits"
+#
+# This config matches the authors' reference code defaults.
+# See design_choices.md for explanations of each choice.
+
+model:
+  # Core dimensions (from authors' reference code)
+  n_layer: 2
+  d_model: 128
+  n_ctx: 512
+  d_head: 16  # Small for monosemanticity (standard GPT-2 uses 64)
+  d_mlp: null  # Will default to 4 * d_model = 4096
+  
+  # Normalization
+  use_rms_norm: true  # Paper uses RMSNorm for zero-value privilege
+  
+  # Embeddings
+  tie_embeddings: false  # Paper uses UNTIED embeddings
+  use_positional_embeddings: false  # Paper doesn't use positional embeddings
+  
+  # Bigram table (paper Section 1.5)
+  use_bigram_table: false
+  
+  # Attention sinks (paper Section 1.6)
+  use_attention_sinks: true
+  
+  # Activation function
+  activation: gelu
+  
+  # Other
+  dropout: 0.0
+  use_bias: true
+  use_flash_attention: true
+
+sparsity:
+  # Weight sparsity
+  enable_weight_sparsity: false
+  target_l0_fraction: 1
+  
+  # Sparsity annealing (paper Section 2.2)
+  # Always anneals from fully dense (1.0) to target
+  sparsity_anneal_start_fraction: 0.01  # When to START annealing
+  sparsity_anneal_end_fraction: 0.5  # When to END annealing
+  
+  # Minimum nonzero weights per neuron (paper Section 2.3)
+  min_weights_per_neuron: 4  # j=4 in paper
+  
+  # Activation sparsity (paper Section 3)
+  enable_activation_sparsity: false
+  activation_topk_fraction: 0.25  # Keep top 1/4 activations
+  
+  # Locations for activation sparsity (from authors' code)
+  activation_sparsity_locations: "attn_in,attn_out,mlp_in,mlp_out,mlp_neuron,attn_v,attn_k,attn_q"
+
+optimizer:
+  # AdamW parameters (paper Section 4.1)
+  learning_rate: 0.01
+  beta1: 0.9
+  beta2: 0.95
+  weight_decay: 0.1
+  eps: 0.000001  # NOTE: Unusually large epsilon! (paper explicitly mentions this)
+  
+  # Gradient clipping (paper Section 4.2) - ESSENTIAL for stability
+  enable_grad_clip: true
+  grad_clip_rms: 1.0
+  
+  # Learning rate schedule (paper Section 4.3-4.5)
+  warmup_fraction: 0.01  # 1% warmup
+  enable_lr_decay: true
+  use_sharkfin_schedule: false  # Authors don't use this in simple interface
+
+training:
+  # Dataset - MUST BE SET BY USER
+  dataset_name: "SimpleStories/SimpleStories"
+  dataset_split: train
+  text_column: story
+  
+  # Tokenizer - MUST BE SET BY USER
+  tokenizer_name: "SimpleStories/SimpleStories-1.25M"
+  
+  # Training
+  total_tokens: 2000000000
+  batch_size: 128  # global_bs from authors' code
+  gradient_accumulation_steps: 1
+  
+  # Mixed precision
+  mixed_precision: bf16
+  
+  # Checkpointing
+  checkpoint_dir: checkpoints
+  checkpoint_every_n_steps: 100000000
+  keep_n_checkpoints: 5
+  
+  # Logging frequencies (from authors' code)
+  log_every_n_steps: 10
+  log_gradients_every_n_steps: 10
+  log_weights_every_n_steps: 100
+  log_sparsity_every_n_steps: 100
+  eval_every_n_steps: 20  # val_every from authors' code
+  
+  # Validation - uses "test" split if available, else holds out from train
+  val_split: test
+  val_holdout_fraction: 0.01
+  val_max_batches: 20
+  
+  # W&B
+  wandb_project: my_sparsity 
+  wandb_run_name: d128_f1
+  wandb_entity: null
+  use_wandb: true
+  
+  # Reproducibility
+  seed: 0  # From authors' code
+  
+  # HuggingFace Hub - set to upload final checkpoint (e.g., "username/model-name")
+  hf_repo: jacobcd52/ss_d128_f1
