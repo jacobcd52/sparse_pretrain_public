@@ -7,9 +7,9 @@ import numpy as np
 from pathlib import Path
 
 # Paths
-STANDARD_PATH = Path("my_sparse_pretrain/outputs/carbs_results_pronoun/ss_bridges_d1024_f0.015625_zero_noembed/best_checkpoint/evals/pareto_superval_data.json")
-FROZEN_LN_PATH = Path("my_sparse_pretrain/outputs/carbs_results_pronoun_frozenln_v2/ss_bridges_d1024_f0.015625_zero_noembed_frozenln/best_checkpoint/evals/pareto_superval_data.json")
-OUTPUT_PATH = Path("my_sparse_pretrain/outputs/carbs_results_pronoun_frozenln_v2/pareto_comparison_frozenln_vs_standard.png")
+STANDARD_PATH = Path("outputs/carbs_results_pronoun/ss_bridges_d1024_f0.015625_zero_noembed/best_checkpoint/evals/pareto_superval_data.json")
+FROZEN_LN_PATH = Path("outputs/carbs_results_pronoun_frozenln_v2/ss_bridges_d1024_f0.015625_zero_noembed_frozenln/best_checkpoint/evals/pareto_superval_data.json")
+OUTPUT_PATH = Path("outputs/carbs_results_pronoun_frozenln_v2/pareto_comparison_frozenln_vs_standard.png")
 
 def load_pareto_data(path: Path):
     """Load Pareto data from JSON file."""

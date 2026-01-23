@@ -13,7 +13,7 @@ Usage:
     python scripts/run_integrated_gradients.py \
         --model_path jacobcd52/ss_bridges_d1024_f0.015625 \
         --task_name ioi_relaxed \
-        --output_dir my_sparse_pretrain/outputs/carbs_results_ioi_relaxed/ss_bridges_d1024_f0.015625_zero_noembed \
+        --output_dir outputs/carbs_results_ioi_relaxed/ss_bridges_d1024_f0.015625_zero_noembed \
         --use_binary_loss
 """
 
@@ -30,9 +30,9 @@ from transformers import AutoTokenizer
 # Add project root to path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from my_sparse_pretrain.src.pruning.run_pruning import load_model
-from my_sparse_pretrain.src.pruning.tasks import get_task
-from my_sparse_pretrain.src.pruning.integrated_gradients import (
+from sparse_pretrain.src.pruning.run_pruning import load_model
+from sparse_pretrain.src.pruning.tasks import get_task
+from sparse_pretrain.src.pruning.integrated_gradients import (
     IntegratedGradientsComputer,
     IGConfig,
     analyze_circuit_importance,

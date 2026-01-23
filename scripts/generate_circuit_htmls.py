@@ -6,7 +6,7 @@ This script loads the best checkpoint from each model and generates
 an interactive HTML circuit visualization.
 
 Usage:
-    python my_sparse_pretrain/scripts/generate_circuit_htmls.py
+    python scripts/generate_circuit_htmls.py
 """
 
 import sys
@@ -19,13 +19,13 @@ from tqdm import tqdm
 
 from transformers import AutoTokenizer
 
-from my_sparse_pretrain.src.pruning.config import PruningConfig
-from my_sparse_pretrain.src.pruning.masked_model import MaskedSparseGPT
-from my_sparse_pretrain.src.pruning.tasks import get_task
-from my_sparse_pretrain.src.pruning.run_pruning import load_model
+from sparse_pretrain.src.pruning.config import PruningConfig
+from sparse_pretrain.src.pruning.masked_model import MaskedSparseGPT
+from sparse_pretrain.src.pruning.tasks import get_task
+from sparse_pretrain.src.pruning.run_pruning import load_model
 
 # Import the HTML generation function from run_single_pruning
-from my_sparse_pretrain.scripts.run_single_pruning import generate_html_with_dashboards
+from sparse_pretrain.scripts.run_single_pruning import generate_html_with_dashboards
 
 
 def generate_circuit_html_for_model(
@@ -135,7 +135,7 @@ def generate_circuit_html_for_model(
 
 
 def main():
-    results_base = Path("my_sparse_pretrain/outputs/carbs_results_pronoun")
+    results_base = Path("outputs/carbs_results_pronoun")
     device = "cuda" if torch.cuda.is_available() else "cpu"
     
     # Find all ss_ directories

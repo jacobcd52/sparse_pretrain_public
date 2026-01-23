@@ -9,7 +9,7 @@ import torch.nn as nn
 import sys
 sys.path.insert(0, str(__file__).rsplit("/", 2)[0])
 
-from my_sparse_pretrain.src.sparsity import WeightSparsifier, SharkfinScheduler, clip_grad_rms_
+from sparse_pretrain.src.sparsity import WeightSparsifier, SharkfinScheduler, clip_grad_rms_
 
 
 class SimpleModel(nn.Module):

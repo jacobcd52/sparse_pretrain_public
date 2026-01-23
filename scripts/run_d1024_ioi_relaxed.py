@@ -14,14 +14,14 @@ sys.path.insert(0, str(Path(__file__).parent.parent.parent.resolve()))
 import torch
 from datetime import datetime
 
-from my_sparse_pretrain.scripts.run_carbs_clean import CleanSweepConfig, run_carbs_sweep
-from my_sparse_pretrain.scripts.run_all_evals import run_all_evals_for_model
-from my_sparse_pretrain.scripts.generate_circuit_htmls import generate_circuit_html_for_model
+from sparse_pretrain.scripts.run_carbs_clean import CleanSweepConfig, run_carbs_sweep
+from sparse_pretrain.scripts.run_all_evals import run_all_evals_for_model
+from sparse_pretrain.scripts.generate_circuit_htmls import generate_circuit_html_for_model
 
 
 def main():
     task_name = "ioi_relaxed"
-    output_base_dir = "my_sparse_pretrain/outputs/carbs_results_ioi_relaxed"
+    output_base_dir = "outputs/carbs_results_ioi_relaxed"
     
     print("=" * 70)
     print(f"CARBS SWEEP: ss_bridges_d1024_f0.015625")

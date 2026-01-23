@@ -8,7 +8,7 @@ This script:
 2. Runs CARBS hyperparameter sweep with 2000 steps per run
 3. Runs all evaluations on the best checkpoint
 
-Output: my_sparse_pretrain/outputs/carbs_results_pronoun/ss_d128_f1_randinit_zero_noembed/
+Output: outputs/carbs_results_pronoun/ss_d128_f1_randinit_zero_noembed/
 """
 
 import sys
@@ -19,9 +19,9 @@ import json
 import torch
 from datetime import datetime
 
-from my_sparse_pretrain.scripts.run_carbs_random_init import create_random_init_model
-from my_sparse_pretrain.scripts.run_carbs_clean import CleanSweepConfig, run_carbs_sweep
-from my_sparse_pretrain.scripts.run_all_evals import run_all_evals_for_model
+from sparse_pretrain.scripts.run_carbs_random_init import create_random_init_model
+from sparse_pretrain.scripts.run_carbs_clean import CleanSweepConfig, run_carbs_sweep
+from sparse_pretrain.scripts.run_all_evals import run_all_evals_for_model
 
 
 def main():
@@ -31,7 +31,7 @@ def main():
     
     # Configuration
     MODEL = "jacobcd52/ss_d128_f1"
-    OUTPUT_BASE_DIR = "my_sparse_pretrain/outputs/carbs_results_pronoun"
+    OUTPUT_BASE_DIR = "outputs/carbs_results_pronoun"
     NUM_STEPS = 2000  # As requested
     NUM_RUNS = 32
     TASK = "dummy_pronoun"
@@ -39,7 +39,7 @@ def main():
     RANDOM_SEED = 42
     
     model_name = MODEL.split("/")[-1]
-    random_init_dir = f"my_sparse_pretrain/outputs/random_init_models/{model_name}_seed{RANDOM_SEED}"
+    random_init_dir = f"outputs/random_init_models/{model_name}_seed{RANDOM_SEED}"
     
     print(f"\nConfiguration:")
     print(f"  Model: {MODEL}")

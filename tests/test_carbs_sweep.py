@@ -22,7 +22,7 @@ class TestCarbsIntegration:
     
     def test_param_spaces_defined(self):
         """Test that our parameter spaces are valid."""
-        from my_sparse_pretrain.scripts.run_carbs_sweep import get_carbs_param_spaces
+        from sparse_pretrain.scripts.run_carbs_sweep import get_carbs_param_spaces
         
         param_spaces = get_carbs_param_spaces()
         assert len(param_spaces) == 8
@@ -37,7 +37,7 @@ class TestCarbsIntegration:
     
     def test_carbs_initialization(self):
         """Test CARBS can be initialized with our param spaces."""
-        from my_sparse_pretrain.scripts.run_carbs_sweep import get_carbs_param_spaces
+        from sparse_pretrain.scripts.run_carbs_sweep import get_carbs_param_spaces
         
         param_spaces = get_carbs_param_spaces()
         
@@ -53,7 +53,7 @@ class TestCarbsIntegration:
     
     def test_carbs_suggest_observe_cycle(self):
         """Test CARBS suggest/observe cycle."""
-        from my_sparse_pretrain.scripts.run_carbs_sweep import get_carbs_param_spaces
+        from sparse_pretrain.scripts.run_carbs_sweep import get_carbs_param_spaces
         
         param_spaces = get_carbs_param_spaces()
         
@@ -91,7 +91,7 @@ class TestCarbsIntegration:
     
     def test_sweep_config(self):
         """Test SweepConfig dataclass."""
-        from my_sparse_pretrain.scripts.run_carbs_sweep import SweepConfig
+        from sparse_pretrain.scripts.run_carbs_sweep import SweepConfig
         
         config = SweepConfig()
         assert config.task_name == "dummy_pronoun"
@@ -111,7 +111,7 @@ class TestPaperDefaults:
     
     def test_table2_centers(self):
         """Test search centers match Table 2 from Appendix A.5."""
-        from my_sparse_pretrain.scripts.run_carbs_sweep import get_carbs_param_spaces
+        from sparse_pretrain.scripts.run_carbs_sweep import get_carbs_param_spaces
         
         param_spaces = get_carbs_param_spaces()
         centers = {p.name: p.search_center for p in param_spaces}
@@ -128,7 +128,7 @@ class TestPaperDefaults:
     
     def test_pruning_config_defaults(self):
         """Test PruningConfig has paper defaults."""
-        from my_sparse_pretrain.src.pruning.config import PruningConfig
+        from sparse_pretrain.src.pruning.config import PruningConfig
         
         config = PruningConfig()
         

@@ -3,7 +3,7 @@
 Run 100 seeds for any CARBS checkpoint, saving masks for runs that achieve target loss.
 
 Usage:
-    python my_sparse_pretrain/scripts/run_100_seeds_generic.py --checkpoint-dir PATH
+    python scripts/run_100_seeds_generic.py --checkpoint-dir PATH
 """
 
 import sys
@@ -20,12 +20,12 @@ from tqdm import tqdm
 
 from transformers import AutoTokenizer
 
-from my_sparse_pretrain.src.pruning.config import PruningConfig
-from my_sparse_pretrain.src.pruning.masked_model import MaskedSparseGPT
-from my_sparse_pretrain.src.pruning.trainer import PruningTrainer
-from my_sparse_pretrain.src.pruning.tasks import get_task
-from my_sparse_pretrain.src.pruning.run_pruning import load_model
-from my_sparse_pretrain.src.pruning.discretize import evaluate_at_k
+from sparse_pretrain.src.pruning.config import PruningConfig
+from sparse_pretrain.src.pruning.masked_model import MaskedSparseGPT
+from sparse_pretrain.src.pruning.trainer import PruningTrainer
+from sparse_pretrain.src.pruning.tasks import get_task
+from sparse_pretrain.src.pruning.run_pruning import load_model
+from sparse_pretrain.src.pruning.discretize import evaluate_at_k
 
 
 def run_single_seed_quick(

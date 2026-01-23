@@ -4,7 +4,7 @@
 cd /root/global_circuits
 
 # Create output directory
-OUTPUT_DIR="my_sparse_pretrain/outputs/carbs_runs"
+OUTPUT_DIR="outputs/carbs_runs"
 mkdir -p $OUTPUT_DIR
 
 # Log file with timestamp
@@ -18,7 +18,7 @@ echo "Iterations: 32, Parallel: 8, Steps: 2000"
 
 # Run the sweep with nohup
 # Using 32 iterations with 8 parallel = 256 total runs (as per paper)
-nohup python -u my_sparse_pretrain/scripts/run_carbs_sweep.py \
+nohup python -u scripts/run_carbs_sweep.py \
     --task dummy_pronoun \
     --iterations 32 \
     --parallel 8 \

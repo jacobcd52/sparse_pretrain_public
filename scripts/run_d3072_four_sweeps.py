@@ -14,9 +14,9 @@ sys.path.insert(0, str(Path(__file__).parent.parent.parent.resolve()))
 import os
 import torch
 
-from my_sparse_pretrain.scripts.run_carbs_clean import CleanSweepConfig, run_carbs_sweep
-from my_sparse_pretrain.scripts.run_all_evals import run_all_evals_for_model
-from my_sparse_pretrain.scripts.generate_circuit_htmls import generate_circuit_html_for_model
+from sparse_pretrain.scripts.run_carbs_clean import CleanSweepConfig, run_carbs_sweep
+from sparse_pretrain.scripts.run_all_evals import run_all_evals_for_model
+from sparse_pretrain.scripts.generate_circuit_htmls import generate_circuit_html_for_model
 
 # Model config
 MODEL_PATH = "jacobcd52/ss_bridges_d3072_f0.005"
@@ -28,25 +28,25 @@ SWEEPS = [
     {
         "task": "ioi_relaxed",
         "ablation": "zero",
-        "output_base_dir": "my_sparse_pretrain/outputs/carbs_results_ioi_relaxed",
+        "output_base_dir": "outputs/carbs_results_ioi_relaxed",
     },
     # 2. IOI Relaxed, mean ablation
     {
         "task": "ioi_relaxed",
         "ablation": "mean_pretrain",
-        "output_base_dir": "my_sparse_pretrain/outputs/carbs_results_ioi_relaxed",
+        "output_base_dir": "outputs/carbs_results_ioi_relaxed",
     },
     # 3. IOI Mixed, zero ablation
     {
         "task": "ioi_mixed",
         "ablation": "zero",
-        "output_base_dir": "my_sparse_pretrain/outputs/carbs_results_ioi_mixed",
+        "output_base_dir": "outputs/carbs_results_ioi_mixed",
     },
     # 4. IOI Mixed, mean ablation
     {
         "task": "ioi_mixed",
         "ablation": "mean_pretrain",
-        "output_base_dir": "my_sparse_pretrain/outputs/carbs_results_ioi_mixed",
+        "output_base_dir": "outputs/carbs_results_ioi_mixed",
     },
 ]
 

@@ -3,10 +3,10 @@
 Analyze CARBS sweep results and produce comprehensive report.
 
 Usage:
-    python my_sparse_pretrain/scripts/analyze_carbs_results_pronoun.py <output_dir>
+    python scripts/analyze_carbs_results_pronoun.py <output_dir>
     
 Example:
-    python my_sparse_pretrain/scripts/analyze_carbs_results_pronoun.py my_sparse_pretrain/outputs/carbs_sweep_dummy_pronoun_20251230_044210
+    python scripts/analyze_carbs_results_pronoun.py outputs/carbs_sweep_dummy_pronoun_20251230_044210
 """
 
 import sys

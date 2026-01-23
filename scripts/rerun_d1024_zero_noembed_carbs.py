@@ -12,8 +12,8 @@ import torch
 import shutil
 from datetime import datetime
 
-from my_sparse_pretrain.scripts.run_carbs_clean import CleanSweepConfig, run_carbs_sweep
-from my_sparse_pretrain.scripts.run_all_evals import run_all_evals_for_model
+from sparse_pretrain.scripts.run_carbs_clean import CleanSweepConfig, run_carbs_sweep
+from sparse_pretrain.scripts.run_all_evals import run_all_evals_for_model
 
 
 def main():
@@ -46,7 +46,7 @@ def main():
         bisection_eval_batches=5,
         bisection_max_iters=15,
         loss_penalty_scale=50000.0,
-        output_base_dir="my_sparse_pretrain/outputs/carbs_results_pronoun",
+        output_base_dir="outputs/carbs_results_pronoun",
         device="cuda",
         use_wandb=False,  # Disable wandb for background run
         ablation_type="zero",

@@ -6,7 +6,7 @@ This script creates comparison plots for all 4 models in both zero and mean
 ablation modes, similar to the carbs_results_pronoun plots.
 
 Usage:
-    python my_sparse_pretrain/scripts/regenerate_frozenln_pareto_plots.py
+    python scripts/regenerate_frozenln_pareto_plots.py
 """
 
 import sys
@@ -188,7 +188,7 @@ def create_combined_plot(base_dir: Path):
 
 
 def main():
-    base_dir = Path("my_sparse_pretrain/outputs/carbs_results_pronoun_frozenln")
+    base_dir = Path("outputs/carbs_results_pronoun_frozenln")
     
     if not base_dir.exists():
         print(f"ERROR: Directory {base_dir} does not exist!")

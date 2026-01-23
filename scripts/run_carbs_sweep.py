@@ -8,9 +8,9 @@ Based on Appendix A.5 of Gao et al. (2025):
 - Search centers from Table 2 of the paper
 
 Run from the global_circuits directory:
-    python my_sparse_pretrain/scripts/run_carbs_sweep.py [--task TASK] [--iterations N] [--parallel N]
+    python scripts/run_carbs_sweep.py [--task TASK] [--iterations N] [--parallel N]
 
-Results saved to my_sparse_pretrain/outputs/carbs_sweep_<task>/
+Results saved to outputs/carbs_sweep_<task>/
 """
 
 import sys
@@ -34,12 +34,12 @@ from transformers import AutoTokenizer
 
 from carbs import CARBS, CARBSParams, Param, LogSpace, LogitSpace, LinearSpace, ObservationInParam
 
-from my_sparse_pretrain.src.pruning.config import PruningConfig
-from my_sparse_pretrain.src.pruning.masked_model import MaskedSparseGPT
-from my_sparse_pretrain.src.pruning.trainer import PruningTrainer
-from my_sparse_pretrain.src.pruning.tasks import get_task
-from my_sparse_pretrain.src.pruning.run_pruning import load_model, create_data_iterator
-from my_sparse_pretrain.src.pruning.discretize import evaluate_at_k
+from sparse_pretrain.src.pruning.config import PruningConfig
+from sparse_pretrain.src.pruning.masked_model import MaskedSparseGPT
+from sparse_pretrain.src.pruning.trainer import PruningTrainer
+from sparse_pretrain.src.pruning.tasks import get_task
+from sparse_pretrain.src.pruning.run_pruning import load_model, create_data_iterator
+from sparse_pretrain.src.pruning.discretize import evaluate_at_k
 
 # Optional wandb import
 try:
@@ -89,7 +89,7 @@ class SweepConfig:
     loss_penalty_scale: float = 50000.0  # Scale factor for loss overshoot penalty
     
     # Output
-    output_dir: str = "my_sparse_pretrain/outputs/carbs_sweep"
+    output_dir: str = "outputs/carbs_sweep"
     
     # Device
     device: str = "cuda"

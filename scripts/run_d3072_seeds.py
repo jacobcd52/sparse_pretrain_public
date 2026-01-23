@@ -10,7 +10,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent.parent.resolve()))
 import subprocess
 import os
 
-MODEL_DIR = "my_sparse_pretrain/outputs/carbs_results_ioi_mixed/ss_bridges_d3072_f0.005_zero_noembed"
+MODEL_DIR = "outputs/carbs_results_ioi_mixed/ss_bridges_d3072_f0.005_zero_noembed"
 NUM_SEEDS = 10
 
 def main():
@@ -21,7 +21,7 @@ def main():
     # Run seed repetitions
     print("\n1. Running seed repetitions...")
     result = subprocess.run([
-        "python", "my_sparse_pretrain/scripts/run_seed_repetitions.py",
+        "python", "scripts/run_seed_repetitions.py",
         "--checkpoint-dir", MODEL_DIR,
         "--num-seeds", str(NUM_SEEDS),
         "--device", "cuda"
@@ -33,7 +33,7 @@ def main():
     
     print("\n2. Analyzing seed repetitions...")
     result = subprocess.run([
-        "python", "my_sparse_pretrain/scripts/analyze_seed_repetitions.py",
+        "python", "scripts/analyze_seed_repetitions.py",
         "--checkpoint-dir", MODEL_DIR,
     ], cwd="/root/global_circuits")
     
@@ -43,7 +43,7 @@ def main():
     print("\n3. Generating circuit HTMLs for each seed...")
     rep_dir = Path(MODEL_DIR) / "repetitions"
     
-    from my_sparse_pretrain.scripts.generate_circuit_htmls import generate_circuit_html_for_model
+    from sparse_pretrain.scripts.generate_circuit_htmls import generate_circuit_html_for_model
     
     for seed_dir in sorted(rep_dir.glob("seed*")):
         if seed_dir.is_dir():

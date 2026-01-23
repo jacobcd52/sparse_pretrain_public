@@ -10,12 +10,12 @@ import json
 
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
-from my_sparse_pretrain.src.pruning.config import PruningConfig
-from my_sparse_pretrain.src.pruning.tasks import get_task
-from my_sparse_pretrain.src.pruning.run_pruning import load_model, create_data_iterator
-from my_sparse_pretrain.src.pruning.masked_model import MaskedSparseGPT
-from my_sparse_pretrain.src.pruning.trainer import PruningTrainer
-from my_sparse_pretrain.src.pruning.sweep_target_loss import sweep_target_losses, plot_loss_vs_circuit_size
+from sparse_pretrain.src.pruning.config import PruningConfig
+from sparse_pretrain.src.pruning.tasks import get_task
+from sparse_pretrain.src.pruning.run_pruning import load_model, create_data_iterator
+from sparse_pretrain.src.pruning.masked_model import MaskedSparseGPT
+from sparse_pretrain.src.pruning.trainer import PruningTrainer
+from sparse_pretrain.src.pruning.sweep_target_loss import sweep_target_losses, plot_loss_vs_circuit_size
 
 
 def run_experiment(
@@ -188,7 +188,7 @@ def run_experiment(
 
 def main():
     model_path = "jacobcd52/ss_bridges_d1024_f0.015625"
-    base_output_dir = Path("my_sparse_pretrain/outputs/paper_hparams")
+    base_output_dir = Path("outputs/paper_hparams")
     
     step_counts = [500, 2000, 20000]
     

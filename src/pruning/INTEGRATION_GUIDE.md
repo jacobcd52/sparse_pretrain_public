@@ -303,7 +303,7 @@ To verify the integration works:
 
 ```python
 # Run unit tests
-python -m my_sparse_pretrain.src.pruning.test_weight_ablation
+python -m src.pruning.test_weight_ablation
 
 # If successful, try with your actual models
 from pruning.example_weight_ablation import run_weight_ablation_example
@@ -373,6 +373,6 @@ discretize_masks(masked_model, threshold=0.0)
 ## Support
 
 If you encounter issues:
-1. Check the unit tests pass: `python -m my_sparse_pretrain.src.pruning.test_weight_ablation`
+1. Check the unit tests pass: `python -m src.pruning.test_weight_ablation`
 2. Review the example: `example_weight_ablation.py`
 3. Read the detailed docs: `WEIGHT_ABLATION_README.md`

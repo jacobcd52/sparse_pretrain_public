@@ -7,17 +7,17 @@ This script orchestrates running the full evaluation pipeline
 
 Usage:
     # Run for default model list
-    python my_sparse_pretrain/scripts/run_multi_model_pipeline.py
+    python scripts/run_multi_model_pipeline.py
     
     # Run for specific models
-    python my_sparse_pretrain/scripts/run_multi_model_pipeline.py \
+    python scripts/run_multi_model_pipeline.py \
         --models model1 model2 model3
     
     # Skip CARBS for all models (use existing checkpoints)
-    python my_sparse_pretrain/scripts/run_multi_model_pipeline.py --skip-carbs
+    python scripts/run_multi_model_pipeline.py --skip-carbs
     
     # Only run interchange evaluation for all models
-    python my_sparse_pretrain/scripts/run_multi_model_pipeline.py --skip-carbs --only interchange
+    python scripts/run_multi_model_pipeline.py --skip-carbs --only interchange
 """
 
 import sys
@@ -64,7 +64,7 @@ def run_single_model(
     """
     cmd = [
         sys.executable,
-        "my_sparse_pretrain/scripts/run_full_evaluation.py",
+        "scripts/run_full_evaluation.py",
         "--model", model_path,
         "--output-dir", output_dir,
         "--carbs-runs", str(carbs_runs),
@@ -322,7 +322,7 @@ def main():
     
     # Output settings
     parser.add_argument("--output-dir", type=str,
-                       default="my_sparse_pretrain/outputs/carbs_results_pronoun",
+                       default="outputs/carbs_results_pronoun",
                        help="Base output directory")
     
     # Execution control

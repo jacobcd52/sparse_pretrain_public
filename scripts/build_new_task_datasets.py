@@ -10,7 +10,7 @@ This script:
 3. Prints the first 20 examples from each dataset
 
 Usage:
-    python my_sparse_pretrain/scripts/build_new_task_datasets.py
+    python scripts/build_new_task_datasets.py
 """
 
 import torch
@@ -24,11 +24,11 @@ from tqdm import tqdm
 import sys
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
-from my_sparse_pretrain.src.model import SparseGPT
-from my_sparse_pretrain.src.pruning.tasks import (
+from sparse_pretrain.src.model import SparseGPT
+from sparse_pretrain.src.pruning.tasks import (
     IOITask, PronounDistractorTask
 )
-from my_sparse_pretrain.src.pruning.run_pruning import load_model
+from sparse_pretrain.src.pruning.run_pruning import load_model
 
 
 def load_simplestories_model(device: str = "cuda"):

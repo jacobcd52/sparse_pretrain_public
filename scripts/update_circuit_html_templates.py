@@ -14,7 +14,7 @@ from pathlib import Path
 # Add parent to path for imports
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
-from my_sparse_pretrain.scripts.run_single_pruning import _get_lightweight_html_template
+from sparse_pretrain.scripts.run_single_pruning import _get_lightweight_html_template
 
 
 def extract_data_from_html(html_content: str) -> tuple:
@@ -63,7 +63,7 @@ def update_html_with_new_template(html_path: Path) -> None:
 
 def main():
     # Find all noembed circuit.html files
-    base = Path("my_sparse_pretrain/outputs/carbs_results_pronoun")
+    base = Path("outputs/carbs_results_pronoun")
     noembed_htmls = sorted(base.glob("*noembed*/circuit.html"))
     
     print(f"Found {len(noembed_htmls)} circuit.html files to update\n")

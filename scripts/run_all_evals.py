@@ -13,7 +13,7 @@ This script:
 4. Creates comparison pareto plots for model variants
 
 Usage:
-    python my_sparse_pretrain/scripts/run_all_evals.py
+    python scripts/run_all_evals.py
 """
 
 import sys
@@ -30,12 +30,12 @@ from contextlib import nullcontext
 
 from transformers import AutoTokenizer
 
-from my_sparse_pretrain.src.pruning.config import PruningConfig
-from my_sparse_pretrain.src.pruning.masked_model import MaskedSparseGPT
-from my_sparse_pretrain.src.pruning.tasks import get_task
-from my_sparse_pretrain.src.pruning.run_pruning import load_model
-from my_sparse_pretrain.src.pruning.discretize import evaluate_at_k_fixed_batches
-from my_sparse_pretrain.src.pruning.interchange_eval import (
+from sparse_pretrain.src.pruning.config import PruningConfig
+from sparse_pretrain.src.pruning.masked_model import MaskedSparseGPT
+from sparse_pretrain.src.pruning.tasks import get_task
+from sparse_pretrain.src.pruning.run_pruning import load_model
+from sparse_pretrain.src.pruning.discretize import evaluate_at_k_fixed_batches
+from sparse_pretrain.src.pruning.interchange_eval import (
     InterchangeEvalConfig,
     run_and_save_interchange_eval,
     AblationSweepConfig,
@@ -46,7 +46,7 @@ from my_sparse_pretrain.src.pruning.interchange_eval import (
 
 
 # Base directory for carbs results
-CARBS_RESULTS_DIR = Path("my_sparse_pretrain/outputs/carbs_results_pronoun")
+CARBS_RESULTS_DIR = Path("outputs/carbs_results_pronoun")
 
 
 def get_model_dirs(exclude_ignore: bool = True) -> List[Path]:

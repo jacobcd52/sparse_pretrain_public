@@ -3,7 +3,7 @@
 Run a single pruning experiment and generate a lightweight HTML visualization.
 
 Usage:
-    python my_sparse_pretrain/scripts/run_single_pruning.py --model MODEL --steps 500
+    python scripts/run_single_pruning.py --model MODEL --steps 500
 """
 
 import sys
@@ -18,11 +18,11 @@ from contextlib import nullcontext
 
 from transformers import AutoTokenizer
 
-from my_sparse_pretrain.src.pruning.config import PruningConfig
-from my_sparse_pretrain.src.pruning.masked_model import MaskedSparseGPT
-from my_sparse_pretrain.src.pruning.trainer import PruningTrainer
-from my_sparse_pretrain.src.pruning.tasks import get_task
-from my_sparse_pretrain.src.pruning.run_pruning import load_model, create_data_iterator
+from sparse_pretrain.src.pruning.config import PruningConfig
+from sparse_pretrain.src.pruning.masked_model import MaskedSparseGPT
+from sparse_pretrain.src.pruning.trainer import PruningTrainer
+from sparse_pretrain.src.pruning.tasks import get_task
+from sparse_pretrain.src.pruning.run_pruning import load_model, create_data_iterator
 
 
 def compute_mean_cache_from_task(masked_model, task, num_batches=100, device="cuda"):
@@ -81,7 +81,7 @@ def main():
     device = args.device
     model_name = args.model.split("/")[-1]
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    output_dir = Path(f"my_sparse_pretrain/outputs/single_run/{model_name}_{timestamp}")
+    output_dir = Path(f"outputs/single_run/{model_name}_{timestamp}")
     output_dir.mkdir(parents=True, exist_ok=True)
     
     print("=" * 70)
@@ -517,8 +517,8 @@ def generate_html_with_dashboards(
     
     # If target_loss is provided, run bisection first
     if target_loss is not None and task is not None:
-        from my_sparse_pretrain.src.pruning.discretize import discretize_masks
-        from my_sparse_pretrain.src.pruning.config import PruningConfig
+        from sparse_pretrain.src.pruning.discretize import discretize_masks
+        from sparse_pretrain.src.pruning.config import PruningConfig
         
         print(f"  Bisecting to find mask achieving target loss {target_loss}...")
         config = PruningConfig(device=device, ablation_type='zero')
@@ -721,8 +721,8 @@ def generate_html_with_dashboards(
     }
     
     # Generate HTML using our local lightweight template with two-column layout
-    from my_sparse_pretrain.src.visualization.circuit_viewer import _generate_dashboard_html
-    from my_sparse_pretrain.src.visualization.dashboard import NodeDashboardData
+    from sparse_pretrain.src.visualization.circuit_viewer import _generate_dashboard_html
+    from sparse_pretrain.src.visualization.dashboard import NodeDashboardData
     
     # Convert pretrain-original dashboards to HTML
     pretrain_original_html = {}
@@ -1187,7 +1187,7 @@ def compute_dashboards_for_nodes(masked_model, tokenizer, nodes, n_samples=200, 
     import torch
     from datasets import load_dataset
     from tqdm import tqdm
-    from my_sparse_pretrain.src.visualization.dashboard import NodeDashboardData, ActivationExample
+    from sparse_pretrain.src.visualization.dashboard import NodeDashboardData, ActivationExample
     
     # Create sequence-packed batches (matching pretraining strategy)
     print(f"    Loading {n_samples} text samples with sequence packing...")
@@ -1508,7 +1508,7 @@ def compute_task_dashboards_for_nodes(masked_model, tokenizer, nodes, task, n_sa
     import torch
     import numpy as np
     from tqdm import tqdm
-    from my_sparse_pretrain.src.visualization.dashboard import NodeDashboardData, ActivationExample
+    from sparse_pretrain.src.visualization.dashboard import NodeDashboardData, ActivationExample
     
     if task is None and task_prompts is None:
         print("    No task provided, skipping task dashboards")
@@ -1823,7 +1823,7 @@ def compute_task_original_dashboards_for_nodes(masked_model, tokenizer, nodes, t
     import torch
     import numpy as np
     from tqdm import tqdm
-    from my_sparse_pretrain.src.visualization.dashboard import NodeDashboardData, ActivationExample
+    from sparse_pretrain.src.visualization.dashboard import NodeDashboardData, ActivationExample
     
     if task is None and task_prompts is None:
         print("    No task provided, skipping task original dashboards")

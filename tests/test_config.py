@@ -6,7 +6,7 @@ import pytest
 import tempfile
 import os
 
-from my_sparse_pretrain.src.config import (
+from sparse_pretrain.src.config import (
     Config,
     ModelConfig,
     SparsityConfig,

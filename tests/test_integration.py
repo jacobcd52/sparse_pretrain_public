@@ -10,15 +10,15 @@ import os
 import sys
 sys.path.insert(0, str(__file__).rsplit("/", 2)[0])
 
-from my_sparse_pretrain.src.config import (
+from sparse_pretrain.src.config import (
     Config,
     ModelConfig,
     SparsityConfig,
     OptimizerConfig,
     TrainingConfig,
 )
-from my_sparse_pretrain.src.model import SparseGPT, create_model
-from my_sparse_pretrain.src.sparsity import WeightSparsifier, SharkfinScheduler, clip_grad_rms_
+from sparse_pretrain.src.model import SparseGPT, create_model
+from sparse_pretrain.src.sparsity import WeightSparsifier, SharkfinScheduler, clip_grad_rms_
 
 
 class TestTrainingIntegration:

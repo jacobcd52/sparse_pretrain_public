@@ -12,13 +12,13 @@ All model-specific outputs are saved to the best_checkpoint folder of the CARBS 
 
 Usage:
     # Run full pipeline including CARBS
-    python my_sparse_pretrain/scripts/run_full_evaluation.py --model MODEL_PATH
+    python scripts/run_full_evaluation.py --model MODEL_PATH
     
     # Skip CARBS (use existing best checkpoint)
-    python my_sparse_pretrain/scripts/run_full_evaluation.py --model MODEL_PATH --skip-carbs
+    python scripts/run_full_evaluation.py --model MODEL_PATH --skip-carbs
     
     # Only run specific evaluations on existing checkpoint
-    python my_sparse_pretrain/scripts/run_full_evaluation.py --model MODEL_PATH --skip-carbs --only interchange
+    python scripts/run_full_evaluation.py --model MODEL_PATH --skip-carbs --only interchange
 """
 
 import sys
@@ -34,11 +34,11 @@ from typing import Optional, Dict, Any
 
 from transformers import AutoTokenizer
 
-from my_sparse_pretrain.src.pruning.config import PruningConfig
-from my_sparse_pretrain.src.pruning.masked_model import MaskedSparseGPT
-from my_sparse_pretrain.src.pruning.tasks import get_task
-from my_sparse_pretrain.src.pruning.run_pruning import load_model, create_data_iterator
-from my_sparse_pretrain.src.pruning.interchange_eval import (
+from sparse_pretrain.src.pruning.config import PruningConfig
+from sparse_pretrain.src.pruning.masked_model import MaskedSparseGPT
+from sparse_pretrain.src.pruning.tasks import get_task
+from sparse_pretrain.src.pruning.run_pruning import load_model, create_data_iterator
+from sparse_pretrain.src.pruning.interchange_eval import (
     InterchangeEvalConfig,
     run_and_save_interchange_eval,
     AblationSweepConfig,
@@ -46,14 +46,14 @@ from my_sparse_pretrain.src.pruning.interchange_eval import (
 )
 
 # Import CARBS sweep
-from my_sparse_pretrain.scripts.run_carbs_clean import (
+from sparse_pretrain.scripts.run_carbs_clean import (
     CleanSweepConfig, 
     run_carbs_sweep,
     create_pareto_plot_superval,
 )
 
 # Import HTML generation
-from my_sparse_pretrain.scripts.run_single_pruning import generate_html_with_dashboards
+from sparse_pretrain.scripts.run_single_pruning import generate_html_with_dashboards
 
 
 def load_best_checkpoint(
@@ -217,7 +217,7 @@ def run_interchange_evaluation_full(
 
 def run_full_pipeline(
     model_path: str,
-    output_base_dir: str = "my_sparse_pretrain/outputs/carbs_results_pronoun",
+    output_base_dir: str = "outputs/carbs_results_pronoun",
     skip_carbs: bool = False,
     only_eval: Optional[str] = None,
     carbs_num_runs: int = 32,
@@ -524,7 +524,7 @@ def main():
     
     # Output settings
     parser.add_argument("--output-dir", type=str, 
-                       default="my_sparse_pretrain/outputs/carbs_results_pronoun",
+                       default="outputs/carbs_results_pronoun",
                        help="Base output directory")
     
     # Device and logging

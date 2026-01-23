@@ -20,11 +20,11 @@ import matplotlib.pyplot as plt
 # Add parent to path for imports
 sys.path.insert(0, str(Path(__file__).parent.parent.parent.parent))
 
-from my_sparse_pretrain.src.pruning.config import PruningConfig
-from my_sparse_pretrain.src.pruning.tasks import get_task
-from my_sparse_pretrain.src.pruning.run_pruning import load_model
-from my_sparse_pretrain.src.pruning.masked_model import MaskedSparseGPT
-from my_sparse_pretrain.src.pruning.discretize import evaluate_at_k
+from sparse_pretrain.src.pruning.config import PruningConfig
+from sparse_pretrain.src.pruning.tasks import get_task
+from sparse_pretrain.src.pruning.run_pruning import load_model
+from sparse_pretrain.src.pruning.masked_model import MaskedSparseGPT
+from sparse_pretrain.src.pruning.discretize import evaluate_at_k
 
 
 def sweep_target_losses(
@@ -311,7 +311,7 @@ def main():
             print("Mean cache loaded.")
         else:
             print("Computing mean cache...")
-            from my_sparse_pretrain.src.pruning.run_pruning import create_data_iterator
+            from sparse_pretrain.src.pruning.run_pruning import create_data_iterator
             data_iter = create_data_iterator(
                 tokenizer_name=tokenizer_name,
                 dataset_name=args.dataset,
@@ -340,7 +340,7 @@ def main():
     print(f"{'='*60}")
     print(f"Training for {args.num_training_steps} steps...")
     
-    from my_sparse_pretrain.src.pruning.trainer import PruningTrainer
+    from sparse_pretrain.src.pruning.trainer import PruningTrainer
     
     trainer = PruningTrainer(masked_model, task, config)
     trainer.train()

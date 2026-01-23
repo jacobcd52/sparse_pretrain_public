@@ -6,7 +6,7 @@ This creates a pre-tokenized version of the dataset that can be loaded
 much faster than tokenizing on-the-fly during training.
 
 Usage:
-    python -m my_sparse_pretrain.scripts.tokenize_dataset \
+    python -m scripts.tokenize_dataset \
         --hf_repo jacobcd52/simplestories-tokenized \
         --push
 """

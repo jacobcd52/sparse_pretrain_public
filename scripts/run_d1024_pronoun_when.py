@@ -13,8 +13,8 @@ sys.path.insert(0, str(Path(__file__).parent.parent.parent.resolve()))
 import torch
 from datetime import datetime
 
-from my_sparse_pretrain.scripts.run_carbs_clean import CleanSweepConfig, run_carbs_sweep
-from my_sparse_pretrain.scripts.run_all_evals import run_all_evals_for_model
+from sparse_pretrain.scripts.run_carbs_clean import CleanSweepConfig, run_carbs_sweep
+from sparse_pretrain.scripts.run_all_evals import run_all_evals_for_model
 
 
 def main():
@@ -48,7 +48,7 @@ def main():
         bisection_eval_batches=5,
         bisection_max_iters=15,
         loss_penalty_scale=50000.0,
-        output_base_dir="my_sparse_pretrain/outputs/carbs_results_pronoun_when",  # New output folder
+        output_base_dir="outputs/carbs_results_pronoun_when",  # New output folder
         device="cuda",
         use_wandb=True,  # Enable wandb logging
         ablation_type="zero",

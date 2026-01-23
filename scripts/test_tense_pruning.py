@@ -13,11 +13,11 @@ from transformers import AutoTokenizer
 import sys
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
-from my_sparse_pretrain.src.pruning.run_pruning import load_model
-from my_sparse_pretrain.src.pruning.masked_model import MaskedSparseGPT
-from my_sparse_pretrain.src.pruning.tasks import get_task
-from my_sparse_pretrain.src.pruning.config import PruningConfig
-from my_sparse_pretrain.src.pruning.trainer import PruningTrainer
+from sparse_pretrain.src.pruning.run_pruning import load_model
+from sparse_pretrain.src.pruning.masked_model import MaskedSparseGPT
+from sparse_pretrain.src.pruning.tasks import get_task
+from sparse_pretrain.src.pruning.config import PruningConfig
+from sparse_pretrain.src.pruning.trainer import PruningTrainer
 
 
 def main():
@@ -115,7 +115,7 @@ def main():
     print(f"  Active nodes: {masked_model.masks.get_total_active_nodes()}")
     
     # Save results
-    output_dir = Path("my_sparse_pretrain/outputs/carbs_results_tense_binary/test_run")
+    output_dir = Path("outputs/carbs_results_tense_binary/test_run")
     output_dir.mkdir(parents=True, exist_ok=True)
     
     results = {

@@ -16,12 +16,12 @@ from tqdm import tqdm
 
 from transformers import AutoTokenizer
 
-from my_sparse_pretrain.src.pruning.config import PruningConfig
-from my_sparse_pretrain.src.pruning.masked_model import MaskedSparseGPT
-from my_sparse_pretrain.src.pruning.tasks import get_task
-from my_sparse_pretrain.src.pruning.run_pruning import load_model
+from sparse_pretrain.src.pruning.config import PruningConfig
+from sparse_pretrain.src.pruning.masked_model import MaskedSparseGPT
+from sparse_pretrain.src.pruning.tasks import get_task
+from sparse_pretrain.src.pruning.run_pruning import load_model
 
-from my_sparse_pretrain.scripts.run_single_pruning import generate_html_with_dashboards
+from sparse_pretrain.scripts.run_single_pruning import generate_html_with_dashboards
 
 
 def generate_circuit_html_for_model(
@@ -107,7 +107,7 @@ def generate_circuit_html_for_model(
 
 
 def main():
-    results_base = Path("my_sparse_pretrain/outputs/carbs_results_ioi_relaxed")
+    results_base = Path("outputs/carbs_results_ioi_relaxed")
     device = "cuda" if torch.cuda.is_available() else "cpu"
     
     # Find all model directories

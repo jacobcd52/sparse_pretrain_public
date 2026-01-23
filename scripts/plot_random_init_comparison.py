@@ -12,10 +12,10 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 # Load results from both experiments
-random_init_path = Path("my_sparse_pretrain/outputs/carbs_results_pronoun/ss_bridges_d1024_f0.015625_seed42_zero_noembed/final_results.json")
+random_init_path = Path("outputs/carbs_results_pronoun/ss_bridges_d1024_f0.015625_seed42_zero_noembed/final_results.json")
 
 # Find a pretrained model with final_results.json for comparison
-pretrained_path = Path("my_sparse_pretrain/outputs/carbs_results_pronoun/ignore_ss_bridges_d1024_f0.015625/final_results.json")
+pretrained_path = Path("outputs/carbs_results_pronoun/ignore_ss_bridges_d1024_f0.015625/final_results.json")
 if not pretrained_path.exists():
     raise FileNotFoundError(f"Could not find pretrained model results at {pretrained_path}")
 
@@ -79,8 +79,8 @@ fig.suptitle(
 )
 
 plt.tight_layout()
-plt.savefig('my_sparse_pretrain/outputs/carbs_results_pronoun/random_init_comparison.png', dpi=150, bbox_inches='tight')
-print("Saved comparison plot to: my_sparse_pretrain/outputs/carbs_results_pronoun/random_init_comparison.png")
+plt.savefig('outputs/carbs_results_pronoun/random_init_comparison.png', dpi=150, bbox_inches='tight')
+print("Saved comparison plot to: outputs/carbs_results_pronoun/random_init_comparison.png")
 
 # Print statistics
 print("\n" + "="*70)

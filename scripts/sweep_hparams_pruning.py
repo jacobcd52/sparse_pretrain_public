@@ -20,12 +20,12 @@ import matplotlib.pyplot as plt
 # Add parent to path for imports
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
-from my_sparse_pretrain.src.pruning.config import PruningConfig
-from my_sparse_pretrain.src.pruning.tasks import get_task
-from my_sparse_pretrain.src.pruning.run_pruning import load_model, create_data_iterator
-from my_sparse_pretrain.src.pruning.masked_model import MaskedSparseGPT
-from my_sparse_pretrain.src.pruning.trainer import PruningTrainer
-from my_sparse_pretrain.src.pruning.discretize import evaluate_at_k
+from sparse_pretrain.src.pruning.config import PruningConfig
+from sparse_pretrain.src.pruning.tasks import get_task
+from sparse_pretrain.src.pruning.run_pruning import load_model, create_data_iterator
+from sparse_pretrain.src.pruning.masked_model import MaskedSparseGPT
+from sparse_pretrain.src.pruning.trainer import PruningTrainer
+from sparse_pretrain.src.pruning.discretize import evaluate_at_k
 
 
 @dataclass

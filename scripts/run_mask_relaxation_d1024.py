@@ -11,8 +11,8 @@ import torch
 import numpy as np
 from tqdm import tqdm
 
-from my_sparse_pretrain.scripts.run_all_evals import load_model_checkpoint
-from my_sparse_pretrain.src.pruning.interchange_eval import (
+from sparse_pretrain.scripts.run_all_evals import load_model_checkpoint
+from sparse_pretrain.src.pruning.interchange_eval import (
     MaskRelaxationConfig,
     run_mask_relaxation_evaluation,
     plot_mask_relaxation_results,
@@ -24,13 +24,13 @@ from my_sparse_pretrain.src.pruning.interchange_eval import (
     compute_task_loss_from_logits,
     MaskRelaxationResult,
 )
-from my_sparse_pretrain.src.pruning.tasks import get_task
+from sparse_pretrain.src.pruning.tasks import get_task
 
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
 print(f'Device: {device}')
 
 # Get d1024 model directories
-carbs_dir = Path('my_sparse_pretrain/outputs/carbs_results_pronoun')
+carbs_dir = Path('outputs/carbs_results_pronoun')
 model_dirs = [d for d in carbs_dir.iterdir() 
               if d.is_dir() and (d / 'best_checkpoint').exists() and 'd1024' in d.name]
 model_dirs = sorted(model_dirs)

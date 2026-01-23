@@ -5,7 +5,7 @@ Run all evaluations for frozen layer norm pruned models.
 This script runs evaluations for models in carbs_results_pronoun_frozenln_v2.
 
 Usage:
-    python my_sparse_pretrain/scripts/run_evals_frozenln.py
+    python scripts/run_evals_frozenln.py
 """
 
 import sys
@@ -21,12 +21,12 @@ from typing import Dict, Any, List, Optional
 
 from transformers import AutoTokenizer
 
-from my_sparse_pretrain.src.pruning.config import PruningConfig
-from my_sparse_pretrain.src.pruning.masked_model import MaskedSparseGPT
-from my_sparse_pretrain.src.pruning.tasks import get_task
-from my_sparse_pretrain.src.pruning.run_pruning import load_model
-from my_sparse_pretrain.src.pruning.discretize import evaluate_at_k_fixed_batches
-from my_sparse_pretrain.src.pruning.interchange_eval import (
+from sparse_pretrain.src.pruning.config import PruningConfig
+from sparse_pretrain.src.pruning.masked_model import MaskedSparseGPT
+from sparse_pretrain.src.pruning.tasks import get_task
+from sparse_pretrain.src.pruning.run_pruning import load_model
+from sparse_pretrain.src.pruning.discretize import evaluate_at_k_fixed_batches
+from sparse_pretrain.src.pruning.interchange_eval import (
     InterchangeEvalConfig,
     run_and_save_interchange_eval,
     AblationSweepConfig,
@@ -36,7 +36,7 @@ from my_sparse_pretrain.src.pruning.interchange_eval import (
 )
 
 # Base directory for carbs results
-CARBS_RESULTS_DIR = Path("my_sparse_pretrain/outputs/carbs_results_pronoun_frozenln_v2")
+CARBS_RESULTS_DIR = Path("outputs/carbs_results_pronoun_frozenln_v2")
 
 
 def get_model_dirs() -> List[Path]:
@@ -346,7 +346,7 @@ def generate_circuit_html(
     task = get_task(task_name, tokenizer, seed=42, split="val")
     
     # Import the HTML generation function from run_single_pruning
-    from my_sparse_pretrain.scripts.run_single_pruning import generate_html_with_dashboards
+    from sparse_pretrain.scripts.run_single_pruning import generate_html_with_dashboards
     
     html_path = generate_html_with_dashboards(
         masked_model=masked_model,

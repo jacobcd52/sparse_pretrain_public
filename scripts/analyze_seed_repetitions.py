@@ -3,8 +3,8 @@
 Analyze saved seed repetitions - create Pareto plot and compute overlap statistics.
 
 Usage:
-    python my_sparse_pretrain/scripts/analyze_seed_repetitions.py \
-        --repetitions-dir my_sparse_pretrain/outputs/carbs_results_pronoun/ss_bridges_d1024_f0.015625_zero_noembed/repetitions
+    python scripts/analyze_seed_repetitions.py \
+        --repetitions-dir outputs/carbs_results_pronoun/ss_bridges_d1024_f0.015625_zero_noembed/repetitions
 """
 
 import sys
@@ -23,11 +23,11 @@ from itertools import combinations
 
 from transformers import AutoTokenizer
 
-from my_sparse_pretrain.src.pruning.config import PruningConfig
-from my_sparse_pretrain.src.pruning.masked_model import MaskedSparseGPT
-from my_sparse_pretrain.src.pruning.tasks import get_task
-from my_sparse_pretrain.src.pruning.run_pruning import load_model
-from my_sparse_pretrain.src.pruning.discretize import evaluate_at_k_fixed_batches
+from sparse_pretrain.src.pruning.config import PruningConfig
+from sparse_pretrain.src.pruning.masked_model import MaskedSparseGPT
+from sparse_pretrain.src.pruning.tasks import get_task
+from sparse_pretrain.src.pruning.run_pruning import load_model
+from sparse_pretrain.src.pruning.discretize import evaluate_at_k_fixed_batches
 
 
 def get_circuit_nodes_set(circuit_mask: Dict[str, torch.Tensor]) -> set:

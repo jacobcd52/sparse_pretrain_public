@@ -15,9 +15,9 @@ import json
 import matplotlib.pyplot as plt
 from datetime import datetime
 
-from my_sparse_pretrain.scripts.run_carbs_clean import CleanSweepConfig, run_carbs_sweep
-from my_sparse_pretrain.scripts.run_all_evals import run_all_evals_for_model
-from my_sparse_pretrain.scripts.generate_circuit_htmls import generate_circuit_html_for_model
+from sparse_pretrain.scripts.run_carbs_clean import CleanSweepConfig, run_carbs_sweep
+from sparse_pretrain.scripts.run_all_evals import run_all_evals_for_model
+from sparse_pretrain.scripts.generate_circuit_htmls import generate_circuit_html_for_model
 
 
 ALL_MODELS = [
@@ -27,7 +27,7 @@ ALL_MODELS = [
     ("jacobcd52/ss_bridges_d4096_f0.002", "d4096"),
 ]
 
-OUTPUT_BASE_DIR = "my_sparse_pretrain/outputs/carbs_results_ioi_relaxed"
+OUTPUT_BASE_DIR = "outputs/carbs_results_ioi_relaxed"
 
 
 def run_model(model_path: str, model_name: str):

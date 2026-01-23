@@ -9,7 +9,7 @@ This script:
 4. Outputs filtered templates for the DummyTenseTask class
 
 Usage:
-    python my_sparse_pretrain/scripts/build_tense_dataset.py
+    python scripts/build_tense_dataset.py
 """
 
 import json
@@ -25,9 +25,9 @@ from tqdm import tqdm
 import sys
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
-from my_sparse_pretrain.src.model import SparseGPT
-from my_sparse_pretrain.src.pruning.tasks import DummyTenseTask
-from my_sparse_pretrain.src.pruning.run_pruning import load_model
+from sparse_pretrain.src.model import SparseGPT
+from sparse_pretrain.src.pruning.tasks import DummyTenseTask
+from sparse_pretrain.src.pruning.run_pruning import load_model
 
 
 def load_simplestories_model(device: str = "cuda"):
@@ -388,7 +388,7 @@ def main():
         print(f"    '{ex['context']}' → correct: '{ex['correct_verb']}' vs incorrect: '{ex['incorrect_verb']}'")
     
     # Plot histogram
-    save_path = Path("my_sparse_pretrain/outputs/carbs_results_tense_binary/binary_loss_histogram.png")
+    save_path = Path("outputs/carbs_results_tense_binary/binary_loss_histogram.png")
     save_path.parent.mkdir(parents=True, exist_ok=True)
     plot_binary_loss_histogram(losses, save_path=save_path)
     
@@ -409,7 +409,7 @@ def main():
         "superval_templates": superval_templates,
     }
     
-    results_path = Path("my_sparse_pretrain/outputs/carbs_results_tense_binary/dataset_results.json")
+    results_path = Path("outputs/carbs_results_tense_binary/dataset_results.json")
     with open(results_path, "w") as f:
         json.dump(results, f, indent=2)
     print(f"\nSaved results to {results_path}")

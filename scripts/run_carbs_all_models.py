@@ -9,7 +9,7 @@ Models:
 - jacobcd52/ss_d128_f1
 
 Usage:
-    nohup python my_sparse_pretrain/scripts/run_carbs_all_models.py > carbs_all_models.log 2>&1 &
+    nohup python scripts/run_carbs_all_models.py > carbs_all_models.log 2>&1 &
 """
 
 import sys
@@ -20,7 +20,7 @@ import argparse
 from datetime import datetime
 import torch
 
-from my_sparse_pretrain.scripts.run_carbs_clean import CleanSweepConfig, run_carbs_sweep
+from sparse_pretrain.scripts.run_carbs_clean import CleanSweepConfig, run_carbs_sweep
 
 # Models to run
 MODELS = [
@@ -103,7 +103,7 @@ def main():
             torch.cuda.empty_cache()
             
             # Use different output directory if freeze_layernorm_scale is enabled
-            output_base = "my_sparse_pretrain/outputs/carbs_results_pronoun_frozenln" if args.freeze_layernorm_scale else "my_sparse_pretrain/outputs/carbs_results_pronoun"
+            output_base = "outputs/carbs_results_pronoun_frozenln" if args.freeze_layernorm_scale else "outputs/carbs_results_pronoun"
             
             config = CleanSweepConfig(
                 model_path=model_path,
@@ -152,7 +152,7 @@ def main():
             print(f"{run_key}: FAILED - {result['error']}")
     
     frozen_suffix = "_frozenln" if args.freeze_layernorm_scale else ""
-    print(f"\nResults saved to: my_sparse_pretrain/outputs/carbs_results_pronoun{frozen_suffix}/")
+    print(f"\nResults saved to: outputs/carbs_results_pronoun{frozen_suffix}/")
 
 
 if __name__ == "__main__":

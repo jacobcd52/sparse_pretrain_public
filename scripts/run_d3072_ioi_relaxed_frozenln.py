@@ -18,14 +18,14 @@ import matplotlib.pyplot as plt
 import numpy as np
 from datetime import datetime
 
-from my_sparse_pretrain.scripts.run_carbs_clean import CleanSweepConfig, run_carbs_sweep
-from my_sparse_pretrain.scripts.run_all_evals import run_all_evals_for_model
-from my_sparse_pretrain.scripts.generate_circuit_htmls import generate_circuit_html_for_model
+from sparse_pretrain.scripts.run_carbs_clean import CleanSweepConfig, run_carbs_sweep
+from sparse_pretrain.scripts.run_all_evals import run_all_evals_for_model
+from sparse_pretrain.scripts.generate_circuit_htmls import generate_circuit_html_for_model
 
 
 MODEL_PATH = "jacobcd52/ss_bridges_d3072_f0.005"
 MODEL_NAME = "d3072"
-OUTPUT_BASE_DIR = "my_sparse_pretrain/outputs/carbs_results_ioi_relaxed_frozenln"
+OUTPUT_BASE_DIR = "outputs/carbs_results_ioi_relaxed_frozenln"
 
 
 def run_sweep(ablation_type: str):
@@ -196,7 +196,7 @@ def create_comparison_with_standard():
     print("=" * 70 + "\n")
     
     frozenln_dir = Path(OUTPUT_BASE_DIR)
-    standard_dir = Path("my_sparse_pretrain/outputs/carbs_results_ioi_relaxed")
+    standard_dir = Path("outputs/carbs_results_ioi_relaxed")
     
     fig, axes = plt.subplots(1, 2, figsize=(14, 6))
     

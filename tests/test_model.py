@@ -9,8 +9,8 @@ import torch.nn as nn
 import sys
 sys.path.insert(0, str(__file__).rsplit("/", 2)[0])
 
-from my_sparse_pretrain.src.config import ModelConfig, SparsityConfig
-from my_sparse_pretrain.src.model import AbsTopK, SDPAWithSink, SparseGPT, create_model
+from sparse_pretrain.src.config import ModelConfig, SparsityConfig
+from sparse_pretrain.src.model import AbsTopK, SDPAWithSink, SparseGPT, create_model
 
 
 class TestAbsTopK:

@@ -7,7 +7,7 @@ the pareto_superval.png with fixed batches to ensure monotonicity.
 Also creates a comparison plot with all Pareto curves on the same axes.
 
 Usage:
-    python my_sparse_pretrain/scripts/regenerate_pareto_plots.py
+    python scripts/regenerate_pareto_plots.py
 """
 
 import sys
@@ -24,11 +24,11 @@ from typing import Dict, List
 
 from transformers import AutoTokenizer
 
-from my_sparse_pretrain.src.pruning.config import PruningConfig
-from my_sparse_pretrain.src.pruning.masked_model import MaskedSparseGPT
-from my_sparse_pretrain.src.pruning.tasks import get_task
-from my_sparse_pretrain.src.pruning.run_pruning import load_model
-from my_sparse_pretrain.src.pruning.discretize import evaluate_at_k_fixed_batches
+from sparse_pretrain.src.pruning.config import PruningConfig
+from sparse_pretrain.src.pruning.masked_model import MaskedSparseGPT
+from sparse_pretrain.src.pruning.tasks import get_task
+from sparse_pretrain.src.pruning.run_pruning import load_model
+from sparse_pretrain.src.pruning.discretize import evaluate_at_k_fixed_batches
 
 
 def regenerate_pareto_for_model(
@@ -280,7 +280,7 @@ def create_comparison_plot(
 
 
 def main():
-    results_base = Path("my_sparse_pretrain/outputs/carbs_results_pronoun")
+    results_base = Path("outputs/carbs_results_pronoun")
     device = "cuda" if torch.cuda.is_available() else "cpu"
     
     # Find all ss_ directories

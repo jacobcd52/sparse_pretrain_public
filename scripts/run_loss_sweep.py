@@ -3,7 +3,7 @@
 Run pruning with wandb logging, then sweep over target losses.
 
 Usage:
-    python my_sparse_pretrain/scripts/run_loss_sweep.py [--seed SEED] [--steps STEPS]
+    python scripts/run_loss_sweep.py [--seed SEED] [--steps STEPS]
 
 Customize hyperparameters by editing the config below.
 """
@@ -19,12 +19,12 @@ import matplotlib.pyplot as plt
 import json
 
 from transformers import AutoTokenizer
-from my_sparse_pretrain.src.pruning.config import PruningConfig
-from my_sparse_pretrain.src.pruning.masked_model import MaskedSparseGPT
-from my_sparse_pretrain.src.pruning.trainer import PruningTrainer
-from my_sparse_pretrain.src.pruning.tasks import get_task
-from my_sparse_pretrain.src.pruning.run_pruning import load_model, create_data_iterator
-from my_sparse_pretrain.src.pruning.discretize import evaluate_at_k
+from sparse_pretrain.src.pruning.config import PruningConfig
+from sparse_pretrain.src.pruning.masked_model import MaskedSparseGPT
+from sparse_pretrain.src.pruning.trainer import PruningTrainer
+from sparse_pretrain.src.pruning.tasks import get_task
+from sparse_pretrain.src.pruning.run_pruning import load_model, create_data_iterator
+from sparse_pretrain.src.pruning.discretize import evaluate_at_k
 
 
 def main():
@@ -93,7 +93,7 @@ def main():
 
     # Output - use model short name in directory
     model_short = model_path.split("/")[-1] if "/" in model_path else model_path
-    output_dir = Path(f"my_sparse_pretrain/outputs/{model_short}_{train_task.name}_seed{seed}_steps{num_steps}")
+    output_dir = Path(f"outputs/{model_short}_{train_task.name}_seed{seed}_steps{num_steps}")
     output_dir.mkdir(parents=True, exist_ok=True)
     
     # Compute mean cache

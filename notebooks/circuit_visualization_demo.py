@@ -5,7 +5,7 @@ This demonstrates the full pipeline from pruned model checkpoint to
 interactive HTML visualization.
 
 Run from the global_circuits directory:
-    python my_sparse_pretrain/notebooks/circuit_visualization_demo.py
+    python sparse_pretrain/notebooks/circuit_visualization_demo.py
 """
 
 import sys
@@ -20,13 +20,13 @@ def demo_full_pipeline():
     Demo: Full visualization pipeline from checkpoint.
     
     Assumes you have already run pruning and have a checkpoint at:
-    my_sparse_pretrain/outputs/pruning/<task_name>/
+    sparse_pretrain/outputs/pruning/<task_name>/
     """
-    from my_sparse_pretrain.src.visualization import visualize_circuit
+    from sparse_pretrain.src.visualization import visualize_circuit
     
     # Set your checkpoint path here
-    checkpoint_path = "my_sparse_pretrain/outputs/pruning/dummy_quote"
-    output_path = "my_sparse_pretrain/outputs/circuit_viewer.html"
+    checkpoint_path = "sparse_pretrain/outputs/pruning/dummy_quote"
+    output_path = "sparse_pretrain/outputs/circuit_viewer.html"
     
     print("Running full visualization pipeline...")
     print(f"  Checkpoint: {checkpoint_path}")
@@ -53,17 +53,17 @@ def demo_step_by_step():
     import torch
     from transformers import AutoTokenizer
     
-    from my_sparse_pretrain.src.visualization import (
+    from sparse_pretrain.src.visualization import (
         extract_circuit,
         compute_dashboards,
         export_circuit_to_html,
         save_circuit,
         save_dashboards,
     )
-    from my_sparse_pretrain.src.pruning.run_pruning import load_model
+    from sparse_pretrain.src.pruning.run_pruning import load_model
     
     # Set paths
-    checkpoint_path = "my_sparse_pretrain/outputs/pruning/dummy_quote"
+    checkpoint_path = "sparse_pretrain/outputs/pruning/dummy_quote"
     device = "cuda"
     
     # Step 1: Extract circuit graph
@@ -80,7 +80,7 @@ def demo_step_by_step():
     print(f"  Edges: {summary['num_edges']}")
     
     # Optionally save the graph
-    save_circuit(graph, "my_sparse_pretrain/outputs/circuit_graph.json")
+    save_circuit(graph, "sparse_pretrain/outputs/circuit_graph.json")
     print("  Saved graph to circuit_graph.json")
     
     # Step 2: Load model and tokenizer for dashboards
@@ -115,12 +115,12 @@ def demo_step_by_step():
     print(f"  Computed dashboards for {len(dashboards)} nodes")
     
     # Optionally save dashboards
-    save_dashboards(dashboards, "my_sparse_pretrain/outputs/dashboards.json")
+    save_dashboards(dashboards, "sparse_pretrain/outputs/dashboards.json")
     print("  Saved dashboards to dashboards.json")
     
     # Step 4: Export to HTML
     print("\nStep 4: Exporting to HTML...")
-    output_path = "my_sparse_pretrain/outputs/circuit_viewer_stepwise.html"
+    output_path = "sparse_pretrain/outputs/circuit_viewer_stepwise.html"
     export_circuit_to_html(
         graph=graph,
         output_path=output_path,
@@ -138,15 +138,15 @@ def demo_with_task_data():
     """
     from transformers import AutoTokenizer
     
-    from my_sparse_pretrain.src.visualization import (
+    from sparse_pretrain.src.visualization import (
         extract_circuit,
         compute_dashboards,
         export_circuit_to_html,
     )
-    from my_sparse_pretrain.src.pruning.run_pruning import load_model
-    from my_sparse_pretrain.src.pruning.tasks import get_task, TaskDataset
+    from sparse_pretrain.src.pruning.run_pruning import load_model
+    from sparse_pretrain.src.pruning.tasks import get_task, TaskDataset
     
-    checkpoint_path = "my_sparse_pretrain/outputs/pruning/dummy_quote"
+    checkpoint_path = "sparse_pretrain/outputs/pruning/dummy_quote"
     device = "cuda"
     
     print("Extracting circuit...")
@@ -181,7 +181,7 @@ def demo_with_task_data():
         verbose=True,
     )
     
-    output_path = "my_sparse_pretrain/outputs/circuit_viewer_task.html"
+    output_path = "sparse_pretrain/outputs/circuit_viewer_task.html"
     export_circuit_to_html(graph, output_path, dashboards)
     print(f"\nDone! Open {output_path} in a browser.")
 

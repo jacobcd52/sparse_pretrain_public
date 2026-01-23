@@ -18,8 +18,8 @@ import numpy as np
 def summarize_results():
     """Summarize and compare frozen vs non-frozen results."""
     
-    frozenln_base = Path("my_sparse_pretrain/outputs/carbs_results_pronoun_frozenln")
-    original_base = Path("my_sparse_pretrain/outputs/carbs_results_pronoun")
+    frozenln_base = Path("outputs/carbs_results_pronoun_frozenln")
+    original_base = Path("outputs/carbs_results_pronoun")
     
     print("=" * 70)
     print("FROZEN LAYER NORM SCALE RESULTS SUMMARY")

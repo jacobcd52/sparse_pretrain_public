@@ -14,9 +14,9 @@ import sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from my_sparse_pretrain.src.config import ModelConfig, SparsityConfig
-from my_sparse_pretrain.src.model import SparseGPT
-from my_sparse_pretrain.src.hooked_model import HookedSparseGPT, HookedSparseGPTConfig
+from sparse_pretrain.src.config import ModelConfig, SparsityConfig
+from sparse_pretrain.src.model import SparseGPT
+from sparse_pretrain.src.hooked_model import HookedSparseGPT, HookedSparseGPTConfig
 
 
 def create_test_configs(

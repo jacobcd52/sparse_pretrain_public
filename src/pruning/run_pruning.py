@@ -2,13 +2,13 @@
 CLI entry point for running circuit pruning.
 
 Usage:
-    python -m my_sparse_pretrain.src.pruning.run_pruning \
+    python -m src.pruning.run_pruning \
         --model_path path/to/model \
         --task dummy_quote \
         --output_dir outputs/pruning
 
 Or as a module:
-    from my_sparse_pretrain.src.pruning import run_pruning
+    from sparse_pretrain.src.pruning import run_pruning
 """
 
 import argparse
@@ -45,8 +45,8 @@ def load_model(model_path: str, device: str = "cuda"):
     import sys
     sys.path.insert(0, str(Path(__file__).parent.parent.parent))
     
-    from my_sparse_pretrain.src.model import SparseGPT
-    from my_sparse_pretrain.src.config import ModelConfig, SparsityConfig
+    from sparse_pretrain.src.model import SparseGPT
+    from sparse_pretrain.src.config import ModelConfig, SparsityConfig
     
     # Check if it's a local path or HF repo
     if os.path.exists(model_path):

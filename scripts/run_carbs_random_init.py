@@ -9,7 +9,7 @@ This script:
 4. Runs all evaluations on the best checkpoint
 
 Usage:
-    python my_sparse_pretrain/scripts/run_carbs_random_init.py \
+    python scripts/run_carbs_random_init.py \
         --model jacobcd52/ss_bridges_d1024_f0.015625 \
         --ablation zero \
         --num-runs 32 \
@@ -28,7 +28,7 @@ import numpy as np
 from datetime import datetime
 from huggingface_hub import hf_hub_download
 
-from my_sparse_pretrain.scripts.run_carbs_clean import CleanSweepConfig, run_carbs_sweep
+from sparse_pretrain.scripts.run_carbs_clean import CleanSweepConfig, run_carbs_sweep
 
 
 def random_init_preserving_sparsity(state_dict: dict, seed: int = 42) -> dict:
@@ -238,7 +238,7 @@ def main():
 
     # Output
     parser.add_argument("--output-dir", type=str,
-                       default="my_sparse_pretrain/outputs/carbs_results_pronoun",
+                       default="outputs/carbs_results_pronoun",
                        help="Base output directory")
 
     # Other
@@ -251,7 +251,7 @@ def main():
 
     # Create random-init model
     model_name = args.model.split("/")[-1]
-    random_init_dir = f"my_sparse_pretrain/outputs/random_init_models/{model_name}_seed{args.random_seed}"
+    random_init_dir = f"outputs/random_init_models/{model_name}_seed{args.random_seed}"
 
     random_model_path = create_random_init_model(
         model_path=args.model,
@@ -299,7 +299,7 @@ def main():
     config.model_path = original_model_path
 
     # Override output directory
-    import my_sparse_pretrain.scripts.run_carbs_clean as carbs_module
+    import sparse_pretrain.scripts.run_carbs_clean as carbs_module
     original_run = carbs_module.run_carbs_sweep
 
     def run_with_custom_dir(cfg):
@@ -312,7 +312,7 @@ def main():
         override_dir = PP(cfg.output_base_dir) / f"{model_name}{full_suffix}"
 
         # Call original with modified config
-        import my_sparse_pretrain.scripts.run_carbs_clean as rc
+        import sparse_pretrain.scripts.run_carbs_clean as rc
         old_func = rc.run_carbs_sweep
 
         # Temporarily override output_dir in the function
@@ -345,7 +345,7 @@ def main():
 
     print(f"\nBest checkpoint saved at: {best_checkpoint_dir}")
     print("\nTo run evaluations, use:")
-    print(f"  python my_sparse_pretrain/scripts/run_all_evals.py --checkpoint {best_checkpoint_dir}")
+    print(f"  python scripts/run_all_evals.py --checkpoint {best_checkpoint_dir}")
 
 
 if __name__ == "__main__":

@@ -6,7 +6,7 @@ plots the attention pattern as a heatmap (lower triangular)
 with token strings as axis labels.
 
 Usage:
-    python -m my_sparse_pretrain.src.pruning.visualize_attention \
+    python -m src.pruning.visualize_attention \
         --checkpoint_dir path/to/best_checkpoint \
         --output_dir outputs/attention_plots
 """

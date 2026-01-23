@@ -2,12 +2,12 @@
 CLI entry point for visualizing pruned circuits.
 
 Usage:
-    python -m my_sparse_pretrain.src.visualization.run_viewer \
+    python -m src.visualization.run_viewer \
         --checkpoint_path outputs/pruning/dummy_quote \
         --output_path outputs/circuit_viewer.html
 
 Or with custom options:
-    python -m my_sparse_pretrain.src.visualization.run_viewer \
+    python -m src.visualization.run_viewer \
         --checkpoint_path outputs/pruning/dummy_quote \
         --output_path outputs/circuit_viewer.html \
         --data_source task \

@@ -3,7 +3,7 @@
 Regenerate plots from existing evaluation JSON data without re-running evaluations.
 
 Usage:
-    python my_sparse_pretrain/scripts/regenerate_plots.py
+    python scripts/regenerate_plots.py
 """
 
 import sys
@@ -18,7 +18,7 @@ from dataclasses import dataclass
 
 
 # Base directory for carbs results
-CARBS_RESULTS_DIR = Path("my_sparse_pretrain/outputs/carbs_results_pronoun")
+CARBS_RESULTS_DIR = Path("outputs/carbs_results_pronoun")
 
 
 def get_model_dirs(exclude_ignore: bool = True) -> List[Path]:

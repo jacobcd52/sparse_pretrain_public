@@ -6,7 +6,7 @@ set -e
 
 cd /root/global_circuits
 
-OUTPUT_DIR="my_sparse_pretrain/outputs/carbs_results_tense_binary"
+OUTPUT_DIR="outputs/carbs_results_tense_binary"
 LOG_FILE="${OUTPUT_DIR}/full_run.log"
 
 # Create output directory if it doesn't exist
@@ -31,7 +31,7 @@ for MODEL in "${MODELS[@]}"; do
     echo "Starting CARBS for ${MODEL_NAME} at $(date)" | tee -a "${LOG_FILE}"
     echo "============================================================" | tee -a "${LOG_FILE}"
     
-    python my_sparse_pretrain/scripts/run_carbs_clean.py \
+    python scripts/run_carbs_clean.py \
         --model "${MODEL}" \
         --task dummy_tense \
         --binary-loss \
@@ -62,12 +62,12 @@ import torch
 import numpy as np
 from tqdm import tqdm
 
-from my_sparse_pretrain.scripts.run_all_evals import (
+from sparse_pretrain.scripts.run_all_evals import (
     run_all_evals_for_model,
     create_comparison_pareto_plot,
 )
 
-CARBS_RESULTS_DIR = Path("my_sparse_pretrain/outputs/carbs_results_tense_binary")
+CARBS_RESULTS_DIR = Path("outputs/carbs_results_tense_binary")
 device = "cuda" if torch.cuda.is_available() else "cpu"
 print(f"Device: {device}")
 

@@ -735,10 +735,10 @@ def test_graph_pareto(
                 and extract Pareto frontier. If False, vary edge threshold only.
     """
     import sys
-    sys.path.insert(0, '/root/global_circuits/my_sparse_pretrain')
+    sys.path.insert(0, '/root/global_circuits/sparse_pretrain')
     sys.path.insert(0, '/root/global_circuits/dictionary_learning')
     sys.path.insert(0, '/root/global_circuits/circuit_tracer')
-    sys.path.insert(0, '/root/global_circuits/my_sparse_pretrain/conversion_utils')
+    sys.path.insert(0, '/root/global_circuits/sparse_pretrain/conversion_utils')
     sys.path.insert(0, '/root/global_circuits/dictionary_learning/conversion_utils')
     
     from src.hooked_model import HookedSparseGPT

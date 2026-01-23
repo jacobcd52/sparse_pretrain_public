@@ -6,7 +6,7 @@ This script runs the weight ablation evaluation for each model that already
 has node ablation results, saving outputs to the same evals directory.
 
 Usage:
-    python my_sparse_pretrain/scripts/run_weight_ablation_all.py
+    python scripts/run_weight_ablation_all.py
 """
 
 import sys
@@ -20,18 +20,18 @@ from typing import Dict, List
 
 from transformers import AutoTokenizer
 
-from my_sparse_pretrain.src.pruning.config import PruningConfig
-from my_sparse_pretrain.src.pruning.masked_model import MaskedSparseGPT
-from my_sparse_pretrain.src.pruning.tasks import get_task
-from my_sparse_pretrain.src.pruning.run_pruning import load_model
-from my_sparse_pretrain.src.pruning.weight_ablation_eval import (
+from sparse_pretrain.src.pruning.config import PruningConfig
+from sparse_pretrain.src.pruning.masked_model import MaskedSparseGPT
+from sparse_pretrain.src.pruning.tasks import get_task
+from sparse_pretrain.src.pruning.run_pruning import load_model
+from sparse_pretrain.src.pruning.weight_ablation_eval import (
     WeightAblationConfig,
     run_and_save_weight_ablation_sweep,
 )
 
 
 # Base directory for carbs results
-CARBS_RESULTS_DIR = Path("my_sparse_pretrain/outputs/carbs_results_pronoun")
+CARBS_RESULTS_DIR = Path("outputs/carbs_results_pronoun")
 
 
 def get_model_dirs_with_evals() -> List[Path]:

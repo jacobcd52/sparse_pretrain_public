@@ -17,12 +17,12 @@ from tqdm import tqdm
 
 from transformers import AutoTokenizer
 
-from my_sparse_pretrain.src.pruning.config import PruningConfig
-from my_sparse_pretrain.src.pruning.masked_model import MaskedSparseGPT
-from my_sparse_pretrain.src.pruning.trainer import PruningTrainer
-from my_sparse_pretrain.src.pruning.tasks import get_task
-from my_sparse_pretrain.src.pruning.run_pruning import load_model
-from my_sparse_pretrain.src.pruning.discretize import evaluate_at_k
+from sparse_pretrain.src.pruning.config import PruningConfig
+from sparse_pretrain.src.pruning.masked_model import MaskedSparseGPT
+from sparse_pretrain.src.pruning.trainer import PruningTrainer
+from sparse_pretrain.src.pruning.tasks import get_task
+from sparse_pretrain.src.pruning.run_pruning import load_model
+from sparse_pretrain.src.pruning.discretize import evaluate_at_k
 
 
 def run_single_seed_quick(
@@ -141,7 +141,7 @@ def run_single_seed_quick(
 
 def main():
     # Configuration
-    CHECKPOINT_DIR = Path("my_sparse_pretrain/outputs/carbs_results_pronoun_frozenln_v2/ss_bridges_d1024_f0.015625_zero_noembed_frozenln")
+    CHECKPOINT_DIR = Path("outputs/carbs_results_pronoun_frozenln_v2/ss_bridges_d1024_f0.015625_zero_noembed_frozenln")
     NUM_SEEDS = 100
     DEVICE = "cuda"
     

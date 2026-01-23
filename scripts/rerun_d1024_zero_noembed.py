@@ -11,18 +11,18 @@ import torch
 import json
 from contextlib import nullcontext
 
-from my_sparse_pretrain.src.pruning.run_pruning import load_model
-from my_sparse_pretrain.src.pruning.masked_model import MaskedSparseGPT
-from my_sparse_pretrain.src.pruning.config import PruningConfig
-from my_sparse_pretrain.src.pruning.tasks import get_task
-from my_sparse_pretrain.src.pruning.trainer import PruningTrainer
-from my_sparse_pretrain.src.pruning.discretize import evaluate_at_k, discretize_masks
+from sparse_pretrain.src.pruning.run_pruning import load_model
+from sparse_pretrain.src.pruning.masked_model import MaskedSparseGPT
+from sparse_pretrain.src.pruning.config import PruningConfig
+from sparse_pretrain.src.pruning.tasks import get_task
+from sparse_pretrain.src.pruning.trainer import PruningTrainer
+from sparse_pretrain.src.pruning.discretize import evaluate_at_k, discretize_masks
 from transformers import AutoTokenizer
 
 
 def main():
     device = "cuda"
-    model_dir = Path("my_sparse_pretrain/outputs/carbs_results_pronoun/ss_bridges_d1024_f0.015625_zero_noembed")
+    model_dir = Path("outputs/carbs_results_pronoun/ss_bridges_d1024_f0.015625_zero_noembed")
     
     # Load configs
     with open(model_dir / "sweep_config.json") as f:

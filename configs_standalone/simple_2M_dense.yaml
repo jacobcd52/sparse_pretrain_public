@@ -10,7 +10,7 @@ model:
   d_model: 128
   n_ctx: 512
   d_head: 16  # Small for monosemanticity (standard GPT-2 uses 64)
-  d_mlp: null  # Will default to 4 * d_model = 4096
+  d_mlp: null  # Will default to 4 * d_model
   
   # Normalization
   use_rms_norm: true  # Paper uses RMSNorm for zero-value privilege

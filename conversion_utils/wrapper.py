@@ -76,7 +76,7 @@ class SparseGPTReplacementModel(nn.Module):
     5. Freezes all parameters, then re-enables gradient on embeddings
     
     Example:
-        >>> from my_sparse_pretrain.src import HookedSparseGPT
+        >>> from sparse_pretrain.src import HookedSparseGPT
         >>> from dictionary_learning.conversion_utils import CLTAdapter
         >>> 
         >>> model = HookedSparseGPT.from_pretrained("jacobcd52/ss_d128_f1", device="cuda")

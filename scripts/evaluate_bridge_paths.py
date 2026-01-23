@@ -22,7 +22,7 @@ Path types:
 6. Double-back (s→d→s): Sparse, decoder, encoder (no dense computation), then sparse
 
 Usage:
-    python my_sparse_pretrain/scripts/evaluate_bridge_paths.py \
+    python scripts/evaluate_bridge_paths.py \
         --checkpoint /path/to/bridges/checkpoint \
         --output /path/to/output.json
 """
@@ -42,12 +42,12 @@ import torch.nn.functional as F
 from tqdm import tqdm
 from transformers import AutoTokenizer
 
-from my_sparse_pretrain.src.config import ModelConfig, SparsityConfig
-from my_sparse_pretrain.src.config_bridges import FullBridgesConfig, BridgesConfig
-from my_sparse_pretrain.src.model import SparseGPT
-from my_sparse_pretrain.src.bridges import BridgeSet, kl_divergence
-from my_sparse_pretrain.src.train_bridges import load_dense_model
-from my_sparse_pretrain.src.data import create_validation_data
+from sparse_pretrain.src.config import ModelConfig, SparsityConfig
+from sparse_pretrain.src.config_bridges import FullBridgesConfig, BridgesConfig
+from sparse_pretrain.src.model import SparseGPT
+from sparse_pretrain.src.bridges import BridgeSet, kl_divergence
+from sparse_pretrain.src.train_bridges import load_dense_model
+from sparse_pretrain.src.data import create_validation_data
 
 
 # =============================================================================
@@ -975,7 +975,7 @@ def load_checkpoint(
     if dense_model_source:
         if Path(dense_model_source).exists():
             # Load from local path
-            from my_sparse_pretrain.src.train_bridges import load_dense_model
+            from sparse_pretrain.src.train_bridges import load_dense_model
             config = FullBridgesConfig.from_yaml(str(config_path)) if config_path.exists() else None
             if config:
                 dense_model = load_dense_model(config, device=device)

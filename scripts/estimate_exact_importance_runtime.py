@@ -11,9 +11,9 @@ import torch
 
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from my_sparse_pretrain.src.pruning.run_pruning import load_model
-from my_sparse_pretrain.src.pruning.tasks import get_task
-from my_sparse_pretrain.src.pruning.exact_node_importance import estimate_runtime
+from sparse_pretrain.src.pruning.run_pruning import load_model
+from sparse_pretrain.src.pruning.tasks import get_task
+from sparse_pretrain.src.pruning.exact_node_importance import estimate_runtime
 from transformers import AutoTokenizer
 
 

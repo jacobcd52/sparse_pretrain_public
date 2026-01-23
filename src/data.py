@@ -6,7 +6,7 @@ Supports two modes:
 2. Pre-tokenized datasets: Loads pre-chunked token IDs (faster, recommended for multi-GPU)
 
 Pre-tokenized datasets should have an "input_ids" column with fixed-length token chunks.
-Use my_sparse_pretrain/scripts/tokenize_dataset.py to create pre-tokenized datasets.
+Use scripts/tokenize_dataset.py to create pre-tokenized datasets.
 """
 
 from pathlib import Path

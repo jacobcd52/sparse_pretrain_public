@@ -10,7 +10,7 @@ This script:
 5. Runs the pruning experiment
 
 Usage:
-    python my_sparse_pretrain/scripts/run_single_pruning_random_init.py \
+    python scripts/run_single_pruning_random_init.py \
         --model jacobcd52/ss_bridges_d1024_f0.015625 \
         --ablation zero \
         --steps 500
@@ -30,11 +30,11 @@ from typing import Dict, List
 
 from transformers import AutoTokenizer
 
-from my_sparse_pretrain.src.pruning.config import PruningConfig
-from my_sparse_pretrain.src.pruning.masked_model import MaskedSparseGPT
-from my_sparse_pretrain.src.pruning.trainer import PruningTrainer
-from my_sparse_pretrain.src.pruning.tasks import get_task
-from my_sparse_pretrain.src.pruning.run_pruning import load_model, create_data_iterator
+from sparse_pretrain.src.pruning.config import PruningConfig
+from sparse_pretrain.src.pruning.masked_model import MaskedSparseGPT
+from sparse_pretrain.src.pruning.trainer import PruningTrainer
+from sparse_pretrain.src.pruning.tasks import get_task
+from sparse_pretrain.src.pruning.run_pruning import load_model, create_data_iterator
 
 
 def compute_weight_sparsity(model: nn.Module) -> Dict[str, float]:
@@ -269,7 +269,7 @@ def main():
     device = args.device
     model_name = args.model.split("/")[-1]
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    output_dir = Path(f"my_sparse_pretrain/outputs/random_init_run/{model_name}_{timestamp}")
+    output_dir = Path(f"outputs/random_init_run/{model_name}_{timestamp}")
     output_dir.mkdir(parents=True, exist_ok=True)
     
     print("=" * 70)

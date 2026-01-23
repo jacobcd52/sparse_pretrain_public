@@ -6,8 +6,8 @@ This script takes a CARBS best checkpoint and runs pruning N times with
 different random seeds to assess the stability/reproducibility of the circuit.
 
 Usage:
-    python my_sparse_pretrain/scripts/run_seed_repetitions.py \
-        --checkpoint-dir my_sparse_pretrain/outputs/carbs_results_pronoun/ss_bridges_d1024_f0.015625_zero_noembed \
+    python scripts/run_seed_repetitions.py \
+        --checkpoint-dir outputs/carbs_results_pronoun/ss_bridges_d1024_f0.015625_zero_noembed \
         --num-seeds 10
 """
 
@@ -29,12 +29,12 @@ from itertools import combinations
 
 from transformers import AutoTokenizer
 
-from my_sparse_pretrain.src.pruning.config import PruningConfig
-from my_sparse_pretrain.src.pruning.masked_model import MaskedSparseGPT
-from my_sparse_pretrain.src.pruning.trainer import PruningTrainer
-from my_sparse_pretrain.src.pruning.tasks import get_task
-from my_sparse_pretrain.src.pruning.run_pruning import load_model, create_data_iterator
-from my_sparse_pretrain.src.pruning.discretize import evaluate_at_k, evaluate_at_k_fixed_batches
+from sparse_pretrain.src.pruning.config import PruningConfig
+from sparse_pretrain.src.pruning.masked_model import MaskedSparseGPT
+from sparse_pretrain.src.pruning.trainer import PruningTrainer
+from sparse_pretrain.src.pruning.tasks import get_task
+from sparse_pretrain.src.pruning.run_pruning import load_model, create_data_iterator
+from sparse_pretrain.src.pruning.discretize import evaluate_at_k, evaluate_at_k_fixed_batches
 
 
 def run_single_seed(

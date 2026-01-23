@@ -8,9 +8,9 @@ import torch
 import torch.nn as nn
 import pytest
 
-from my_sparse_pretrain.src.config import ModelConfig, SparsityConfig
-from my_sparse_pretrain.src.model import SparseGPT
-from my_sparse_pretrain.src.bridges import (
+from sparse_pretrain.src.config import ModelConfig, SparsityConfig
+from sparse_pretrain.src.model import SparseGPT
+from sparse_pretrain.src.bridges import (
     BridgeSet,
     compute_hybrid_kl_losses,
     GradientBuffer,

@@ -181,7 +181,7 @@ def create_combined_plot(base_dir: Path):
 
 
 def main():
-    base_dir = Path("my_sparse_pretrain/outputs/carbs_results_ioi_relaxed")
+    base_dir = Path("outputs/carbs_results_ioi_relaxed")
     
     # Create zero ablation comparison
     create_comparison_plot(

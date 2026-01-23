@@ -8,7 +8,7 @@ including:
 - D3.js-based interactive HTML visualization
 
 Example usage:
-    from my_sparse_pretrain.src.visualization import visualize_circuit
+    from sparse_pretrain.src.visualization import visualize_circuit
     
     # Full pipeline from checkpoint to HTML
     graph, dashboards = visualize_circuit(
@@ -17,7 +17,7 @@ Example usage:
     )
     
     # Or step by step:
-    from my_sparse_pretrain.src.visualization import (
+    from sparse_pretrain.src.visualization import (
         extract_circuit,
         compute_dashboards,
         export_circuit_to_html,

@@ -1,8 +1,7 @@
 """
-Vendored copy of the `sparse_pretrain` repo.
+sparse_pretrain - Weight-sparse transformer pretraining
 
-This file exists so `my_sparse_pretrain.*` imports work when running code from the
-`global_circuits` repo root (without pip-installing sparse_pretrain separately).
+Based on Gao et al. (2025) "Weight-sparse transformers have interpretable circuits"
 """
 
-
+from src import *

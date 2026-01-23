@@ -20,12 +20,12 @@ import shutil
 
 from transformers import AutoTokenizer
 
-from my_sparse_pretrain.src.pruning.config import PruningConfig
-from my_sparse_pretrain.src.pruning.masked_model import MaskedSparseGPT
-from my_sparse_pretrain.src.pruning.trainer import PruningTrainer
-from my_sparse_pretrain.src.pruning.tasks import get_task, IOIRelaxedTask
-from my_sparse_pretrain.src.pruning.run_pruning import load_model
-from my_sparse_pretrain.src.pruning.discretize import evaluate_at_k
+from sparse_pretrain.src.pruning.config import PruningConfig
+from sparse_pretrain.src.pruning.masked_model import MaskedSparseGPT
+from sparse_pretrain.src.pruning.trainer import PruningTrainer
+from sparse_pretrain.src.pruning.tasks import get_task, IOIRelaxedTask
+from sparse_pretrain.src.pruning.run_pruning import load_model
+from sparse_pretrain.src.pruning.discretize import evaluate_at_k
 
 
 def run_single_seed_quick(
@@ -149,7 +149,7 @@ class IOIRelaxedSameGenderTask(IOIRelaxedTask):
         return f"ioi_relaxed_same_gender_{self.split}"
     
     def generate_example(self):
-        from my_sparse_pretrain.src.pruning.tasks import TaskExample
+        from sparse_pretrain.src.pruning.tasks import TaskExample
         
         # Both names same gender
         use_male = self.rng.random() > 0.5
@@ -245,7 +245,7 @@ def evaluate_gender_performance(
 
 def main():
     # Configuration
-    CHECKPOINT_DIR = Path("my_sparse_pretrain/outputs/carbs_results_ioi_relaxed/ss_bridges_d1024_f0.015625_zero_noembed")
+    CHECKPOINT_DIR = Path("outputs/carbs_results_ioi_relaxed/ss_bridges_d1024_f0.015625_zero_noembed")
     NUM_SEEDS = 100
     DEVICE = "cuda"
     

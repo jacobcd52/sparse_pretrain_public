@@ -12,7 +12,7 @@ Models:
 - jacobcd52/ss_d128_f1
 
 Usage:
-    nohup python my_sparse_pretrain/scripts/run_carbs_frozenln_all_models.py > carbs_frozenln_all_models.log 2>&1 &
+    nohup python scripts/run_carbs_frozenln_all_models.py > carbs_frozenln_all_models.log 2>&1 &
 """
 
 import sys
@@ -23,7 +23,7 @@ import argparse
 from datetime import datetime
 import torch
 
-from my_sparse_pretrain.scripts.run_carbs_clean import CleanSweepConfig, run_carbs_sweep
+from sparse_pretrain.scripts.run_carbs_clean import CleanSweepConfig, run_carbs_sweep
 
 # Models to run
 MODELS = [
@@ -103,7 +103,7 @@ def main():
             torch.cuda.empty_cache()
             
             # Output directory for frozen LN results
-            output_base = "my_sparse_pretrain/outputs/carbs_results_pronoun_frozenln"
+            output_base = "outputs/carbs_results_pronoun_frozenln"
             
             config = CleanSweepConfig(
                 model_path=model_path,
@@ -154,7 +154,7 @@ def main():
         else:
             print(f"{run_key}: FAILED - {result['error']}")
     
-    print("\nResults saved to: my_sparse_pretrain/outputs/carbs_results_pronoun_frozenln/")
+    print("\nResults saved to: outputs/carbs_results_pronoun_frozenln/")
 
 
 if __name__ == "__main__":
