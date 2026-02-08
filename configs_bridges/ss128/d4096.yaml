@@ -55,7 +55,7 @@ bridges:
   coef_kl_s2d: 1.0      # KL for sparse→dense hybrid passes
   coef_ce_sparse: 1.0   # Cross-entropy on sparse model (standard LM loss)
   coef_kl_sparse: 1.0   # KL(dense, sparse) distillation loss
-  kl_approx_n: null
+  kl_approx_n: 64
 
 # =============================================================================
 # Sparsity Configuration (for sparse model)

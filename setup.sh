@@ -71,3 +71,8 @@ echo "  # Run pruning/circuit discovery"
 echo "  python -m src.pruning.run_pruning --model PATH_TO_MODEL --task pronoun"
 echo ""
 
+
+
+
+
+
