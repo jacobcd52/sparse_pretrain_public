@@ -751,6 +751,7 @@ def compute_hybrid_kl_losses(
     kl_target_cache: Optional[KLTargetCache] = None,
     sharpness: Optional[float] = None,
     hard: bool = True,
+    topk: Optional[int] = None,
 ) -> "HybridKLResult":
     """
     Compute KL losses for hybrid forward passes.
@@ -774,6 +775,8 @@ def compute_hybrid_kl_losses(
             If provided, reuses cached top-k indices and target softmax.
         sharpness: Sharpness for soft thresholding (ThresholdEncoder only)
         hard: Whether to use hard thresholding (ThresholdEncoder only)
+        topk: If specified, compute KL over top-k tokens from target distribution.
+            Used when kl_target_cache is None (e.g., due to shape mismatch).
         
     Returns:
         HybridKLResult containing kl_d2s, kl_s2d losses, per-site losses, and gradient buffers.
@@ -783,7 +786,7 @@ def compute_hybrid_kl_losses(
     kl_d2s, kl_s2d, kl_d2s_per_site, kl_s2d_per_site, buffers = _compute_hybrid_kl_losses_buffered(
         dense_model, sparse_model, bridge_set,
         h_dense_list, h_sparse_pre_list, y_dense, input_ids,
-        kl_target_cache, sharpness, hard
+        kl_target_cache, sharpness, hard, topk
     )
     return HybridKLResult(kl_d2s, kl_s2d, kl_d2s_per_site, kl_s2d_per_site, buffers)
 
@@ -799,6 +802,7 @@ def _compute_hybrid_kl_losses_buffered(
     kl_target_cache: Optional[KLTargetCache] = None,
     sharpness: Optional[float] = None,
     hard: bool = True,
+    topk: Optional[int] = None,
 ) -> Tuple[torch.Tensor, torch.Tensor, List[torch.Tensor], List[torch.Tensor], List["GradientBuffer"]]:
     """
     Optimized implementation using gradient buffering.
@@ -839,8 +843,8 @@ def _compute_hybrid_kl_losses_buffered(
         y_hybrid = sparse_model.forward_from_site(buffer.accumulator, i, input_ids)
         
         # KL(dense || hybrid) - gradients will accumulate in buffer
-        # Use cache if provided for efficiency
-        kl_site = kl_divergence(y_dense, y_hybrid, target_cache=kl_target_cache)
+        # Use cache if provided for efficiency, otherwise fall back to topk
+        kl_site = kl_divergence(y_dense, y_hybrid, target_cache=kl_target_cache, topk=topk)
         kl_d2s_per_site.append(kl_site)
         kl_d2s_total = kl_d2s_total + kl_site
     
@@ -866,8 +870,8 @@ def _compute_hybrid_kl_losses_buffered(
         y_hybrid = dense_model.forward_from_site(buffer.accumulator, i, input_ids)
         
         # KL(dense || hybrid) - gradients will accumulate in buffer
-        # Use cache if provided for efficiency
-        kl_site = kl_divergence(y_dense, y_hybrid, target_cache=kl_target_cache)
+        # Use cache if provided for efficiency, otherwise fall back to topk
+        kl_site = kl_divergence(y_dense, y_hybrid, target_cache=kl_target_cache, topk=topk)
         kl_s2d_per_site.append(kl_site)
         kl_s2d_total = kl_s2d_total + kl_site
     

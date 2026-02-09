@@ -15,32 +15,23 @@ echo ""
 echo "Installing Python dependencies..."
 pip install -r requirements.txt
 
-# Optional: Install CARBS for hyperparameter optimization
-read -p "Install CARBS for hyperparameter sweeps? [y/N] " -n 1 -r
-echo
-if [[ $REPLY =~ ^[Yy]$ ]]; then
-    pip install carbs @ git+https://github.com/imbue-ai/carbs.git
-fi
+# Install CARBS for hyperparameter optimization
+echo "Installing CARBS..."
+pip install "carbs @ git+https://github.com/imbue-ai/carbs.git"
 
-# Optional: Install transformer-lens for interpretability
-read -p "Install transformer-lens for HookedSparseGPT? [y/N] " -n 1 -r
-echo
-if [[ $REPLY =~ ^[Yy]$ ]]; then
-    pip install transformer-lens>=1.0.0
-fi
+# Install transformer-lens for interpretability
+echo "Installing transformer-lens..."
+pip install transformer-lens>=1.0.0
 
 # Install package in editable mode
 echo ""
 echo "Installing sparse_pretrain in editable mode..."
 pip install -e .
 
-# Download pre-tokenized dataset (optional)
+# Download pre-tokenized dataset
 echo ""
-read -p "Download pre-tokenized SimpleStories dataset? [y/N] " -n 1 -r
-echo
-if [[ $REPLY =~ ^[Yy]$ ]]; then
-    echo "Downloading from HuggingFace Hub..."
-    python -c "
+echo "Downloading pre-tokenized SimpleStories dataset..."
+python -c "
 from datasets import load_dataset
 from pathlib import Path
 
@@ -58,7 +49,6 @@ if not local_path.exists():
 else:
     print(f'Local copy already exists at {local_path}')
 "
-fi
 
 echo ""
 echo "=== Setup Complete ==="

@@ -1073,6 +1073,7 @@ def train_bridges(config: FullBridgesConfig):
             # NOTE: Cannot use kl_target_cache here because it was computed on
             # shifted logits (batch, seq-1, vocab) but hybrid outputs have shape
             # (batch, seq, vocab). Using the cache would cause shape misalignment.
+            # Instead, pass topk directly so top-k indices are recomputed per call.
             # NOTE: Use unwrapped models to access custom forward methods (forward_from_site)
             # Decoder uses pre-AbsTopK activations for s2d direction
             hybrid_result = compute_hybrid_kl_losses(
@@ -1086,6 +1087,7 @@ def train_bridges(config: FullBridgesConfig):
                 kl_target_cache=None,  # Don't use cache due to shape mismatch
                 sharpness=encoder_sharpness,
                 hard=encoder_hard,
+                topk=config.bridges.kl_approx_n,
             )
             loss_kl_d2s = hybrid_result.kl_d2s
             loss_kl_s2d = hybrid_result.kl_s2d
